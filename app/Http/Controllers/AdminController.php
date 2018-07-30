@@ -1,0 +1,222 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Http\RedirectResponse;
+
+class AdminController extends Controller
+{
+    public function addQuiz()
+    {
+        return view('admin.addQuiz');
+    }
+
+    public function saveQuiz(Request $request)
+    {
+        $validator = $request->validate([
+            'title' =>'required',
+            'description'=>'required'
+        ]);
+
+        if($validator  === false){
+
+           return back()->withErrors($validator);
+        }
+
+        $data = array(
+            'title' => $request->title,
+            'description' => $request->description
+        );
+
+        $quiz  = \App\Quiz::create($data);
+
+        return redirect()->action('AdminController@addQuestion', ['quizId'=>$quiz]);
+
+    }
+
+    public function addQuestion( Request $request)
+    {
+        $quiz = \App\Quiz::find($request->quizId);
+        //dd($request);
+        if(empty($quiz)){
+            return  view('admin.addQuestion')->withErrors(["Sorry. Invalid request made "] );
+        }
+
+        return view('admin.addQuestion', array('quiz'=>$quiz));
+    }
+
+    public function saveQuestion(Request $request)
+    {
+
+       $data = array(
+          "quiz_id" => $request->quizId,
+          "body"    => $request->question
+       ) ;
+
+       $quiz     = \App\Quiz::find($request->quizId);
+
+       if(empty($quiz)){
+            return  view('admin.addQuestion')->withErrors(["Sorry. Invalid request made "] );
+       }
+
+       $validator = $request->validate([
+            'quizId' => 'required|numeric',
+            'question'   => 'required'
+       ]);
+
+       if($validator === false){
+          return view('admin.addQuestion', $quiz )->withErrors($validator);
+       }
+
+        \App\Question::create($data);
+
+        return view('admin.addQuestion',
+            array(
+                'quiz'=> $quiz
+            )
+        );
+    }
+
+    public function removeQuestion($questionId, $quizId)
+    {
+        //if that question does not belongs to that $quizId
+        //get back with flash error
+        //if that question belongs to that quiz
+        //remove question
+        if( empty(\App\Question::find($questionId) )){
+            return back()->withErrors(["errors"=>"InvalidRequest"]);
+        }
+
+        \App\Question::destroy($questionId);
+        $quiz = \App\Quiz::find($quizId);
+
+        return view('admin.addQuestion', array('quiz'=>$quiz));
+    }
+
+    public function removeQuiz($quizId)
+    {
+
+        \App\Quiz::destroy($quizId);
+        $quizzes = \App\Quiz::all();
+
+        return view('admin.quizzes', array("quizzes"=> $quizzes
+        ));
+    }
+    public function updateQuestion(Request $request)
+    {
+        $quiz = \App\Quiz::find($request->quizId);
+        $question = \App\Question::find($request->questionId);
+        $question->body = $request->body;
+        $question->save();
+
+        return view('admin.addQuestion', array('quiz'=>$quiz));
+
+    }
+
+    public function addAnswer($questionId)
+    {
+
+        $question = \App\Question::find($questionId);
+
+        if(empty($question)){
+            return view('/quizzes')->withErrors( array("errors" => "invalid request"));
+        }
+
+        return view('admin.addAnswer', array('question' => $question));
+    }
+
+
+    public function saveAnswer(Request $request)
+    {
+       $validator = $request->validate(   array(
+                'questionId' => 'required',
+                'correct'    => 'required',
+                'body'       => 'required'
+            )
+       );
+       if($validator === false){
+           return back()->withErrors($validator );
+       }
+
+        //save answer data
+        $data = array(
+            'question_id' => $request->questionId,
+            'correct'     => $request->correct,
+            'body'       =>  $request->body
+        );
+
+
+        $answer = \App\Answer::create($data);
+
+        $this->saveQuestionValidAnswerSet($request->questionId, $request->correct);
+
+        return back();
+    }
+
+    public function saveQuestionValidAnswerSet($questionId, $correct)
+    {
+
+        $validAnswerSet = \App\QuestionValidAnswerSet::find($questionId);
+
+        if( empty( $validAnswerSet)){
+
+           $this->saveValidAnswerSet($questionId, $correct);
+
+        }else{
+
+            $newValidAnswer = $validAnswerSet->valid_answer.$correct;
+
+            $validAnswerSet->valid_answer = $newValidAnswer;
+
+            $validAnswerSet->save();
+        }
+
+    }
+
+
+    public function saveValidAnswerSet($questionId, $correct)
+    {
+        $data = array(
+            'question_id' => $questionId,
+            'valid_answer' => $correct
+        );
+
+       return \App\QuestionValidAnswerSet::create($data);
+
+    }
+
+    public function updateAnswer(Request $request)
+    {
+
+        $answer = \App\Answer::find($request->answerId);
+        $answer->correct = $request->correct;
+        $answer->body    = $request->body;
+
+        $answer->save();
+
+        return back();
+    }
+
+    public function quizzes()
+    {
+       $quizzes =  \App\Quiz::all();
+
+       if( empty($quizzes) ){
+           return view('admin.quizzes')->withErrors( ['errors' => "There are no quizzes for the moment"] );
+       }
+
+        return view('admin.quizzes', array( 'quizzes' => $quizzes ));
+    }
+
+    public function editQuiz($quizId)
+    {
+        $quiz =  \App\Quiz::find($quizId);
+        return view('admin.addQuestion', array('quiz'=>$quiz));
+    }
+
+
+
+
+}
