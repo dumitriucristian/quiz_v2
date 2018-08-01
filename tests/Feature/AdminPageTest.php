@@ -132,8 +132,6 @@ class AdminPageTest extends TestCase
 
         $newQuestions =  \App\Question::all();
         $this->assertCount( 1, $newQuestions);
-
-
         $response->assertSee("TOLOMAC");
     }
 
@@ -159,7 +157,7 @@ class AdminPageTest extends TestCase
         );
     }
 
-    /*$this->assertTrue($request->original->getData()['quiz']->is($quiz));**/
+
     public function test_user_see_administrable_quizz(){
         //given there are quizzes
         $quizzes = factory(\App\Quiz::class,5)->create();
