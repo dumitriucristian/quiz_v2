@@ -22,7 +22,7 @@
                     <div class="card">
                     @foreach( $quizzes as $quiz)
                         <div class="card-header">
-                            <a href="/{{$quiz->id}}/quiz">
+                            <a href="/quiz/{{$quiz->id}}">
                                 <strong>{{ $quiz->title }} </strong>
                             </a>
                             -  {{$quiz->questions->count()}}
