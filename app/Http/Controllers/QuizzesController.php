@@ -21,8 +21,6 @@ class QuizzesController extends Controller
             }
 
             return view('pages.home', ["quizzes"=>$quizzes]);
-
-
     }
 
     public function quizDetails(Request $request)
@@ -33,19 +31,16 @@ class QuizzesController extends Controller
         if(!isset($request->page)){
              $currentPage = $this->getCurrentPage();
         }
-
-         $currentPage = $this->getCurrentPage( $request->page);
+        $currentPage = $this->getCurrentPage( $request->page);
 
           if( !$quiz || empty($quiz)) {
                return view('pages.quizDetails')->withErrors( array("errors" => ["The quiz requested is unavailable"]));
           }
 
-
         return view('pages.quizDetails',
             array(
                 'quiz'=> $quiz,
                 'questions' =>  $questions,
-
             )
         );
     }
@@ -58,6 +53,7 @@ class QuizzesController extends Controller
             return $page;
         }
     }
+
     public function getNextPage($paginator)
     {
         if($paginator->lastPage() == $this->getCurrentPage()){
