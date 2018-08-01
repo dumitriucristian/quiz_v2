@@ -5,21 +5,28 @@
 
         @include('includes.error');
     @else
-    @include('includes.adminMenu');
-
-        <div class="container">
+         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header"> Details</div>
 
-                        <div class="card-body">
-                            {{$quiz->description}}
-                            //get first question
-                           //show next and previous buttons
-                        </div>
+                    <div class="card">
+                        <form method="POST" action="userAnswer">
+                        @foreach($questions as $question)
+                        <div class="card-header">    {{$question->body}}</div>
+                            <div class="card-body">
+                                @foreach($question->answer as $answer)
+                                    <div>
+                                        <input type="checkbox" value="{{$answer->id}}" name="answer[]">
+                                        <label>{{$answer->body}}</label>
+                                    </div>
+                                @endforeach
+                               <input type="submit" value="submit" />
+                            </div>
+                        @endforeach()
+                        </form>
+                       <div class="m-auto">{{$questions->links()}}</div>
                     </div>
-                </div>
+                 </div>
             </div>
         </div>
     @endif

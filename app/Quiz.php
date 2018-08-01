@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
-    protected $fillable = ['title', 'description'];
 
+    protected $fillable = ['title', 'description'];
 
     public function questions()
     {
@@ -16,9 +16,10 @@ class Quiz extends Model
 
     public static function quizExist($data)
     {
-
         return ( (!$data) || ($data->count() == 0) ) ? false : true;
-
-
     }
+
+
+
+
 }
