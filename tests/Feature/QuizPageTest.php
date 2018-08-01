@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,6 +11,7 @@ use Illuminate\Support\Collection;
 use \App\User;
 use \App\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+
 
 class QuizPageTest extends TestCase
 {
@@ -36,7 +39,7 @@ class QuizPageTest extends TestCase
 
        $this->assertInstanceOf(Collection::class, static::$quiz);
 
-       $request = $this->call('GET','/{id}/quiz', ['id' => 1])
+       $request = $this->call('GET','/quiz/{id}', ['id' => 1])
            ->assertViewIs('pages.quizDetails')
            ->assertStatus(200);
     }
@@ -47,25 +50,55 @@ class QuizPageTest extends TestCase
 
         $response = static::$quiz->find(2);
         $this->assertNull( $response );
-        $response  = $this->get('/2/quiz')->assertSee('The quiz requested is unavailable');
+        $response  = $this->get('quiz/2')->assertSee('The quiz requested is unavailable');
 
     }
-
-
 
     public function test_quiz_has_next_question()
     {
-        $quiz = static::$quiz->first();
 
-        $questions =     $quiz->questions;
-      //dd($questions);
-        $this->assertCount(3, $questions);
+       $quiz = static::$quiz->first();
+       $questions =     $quiz->questions;
+       $this->assertCount(3, $questions);
     }
-    //count nr of questions
-    //if quiz has only one question no pagination is required
-    //if quiz has more questions
-        //get quiz model first question data
-        //get  quiz model  the next question id
+
+    public function user_saves_answer()
+    {
+        //given a user send an answer
+
+        //and the answer has a valid user_id, a question_id and a valid quiz_id
+        //then we create a formated user_answer_set
+        //then formated answer is saved into the formated_user_answer table
+        //and each answer is saved into the user_answer table
+        //if is not the last question user is sent to the next question
+        //if is the last question user in sent to the result page
+        //where the user can see the assessment page
+
+
+    }
+
+
+    public function test_if_quiz_id_is_invalid_user_is_redirected_with_errors(){
+
+            $response = $this->call('/addUserAnswer', 'POST', ['question_id'=>999999999999])
+                ->assertStatus(404);
+            $response->assertSeeText('Invalid Quiz requested');
+    }
+
+
+
+    public function user_send_answer()
+    {
+        //$this->call("POST",'addUserAnswer')->assertStatus(200);
+        $answers = array(
+                    14 => 0,
+                    15 => 0
+                );
+
+
+        //check if valid quiz_id
+        //check if valid
+    }
 
 
 

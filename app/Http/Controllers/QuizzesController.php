@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use \App\Quiz;
@@ -23,8 +23,27 @@ class QuizzesController extends Controller
             return view('pages.home', ["quizzes"=>$quizzes]);
     }
 
+
+    public function addUserAnswer(Request $request)
+    {
+
+        $quiz_id = $request->quiz_id;
+
+        try{
+            Quiz::findOrFail($quiz_id);
+
+        }catch( ModelNotFoundException $Ex){
+
+            return back()->withErrors(array('errors' =>"Invalid Quiz requested"));
+        }
+
+
+    }
+
     public function quizDetails(Request $request)
     {
+
+
         $quiz = Quiz::find($request->quiz_id);
         $questions = Question::where( 'quiz_id','=',$request->quiz_id )->paginate( 1 );
 
