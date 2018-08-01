@@ -33,7 +33,7 @@ Route::post('/admin/updateAnswer',          'AdminController@updateAnswer');
 Route::get('/admin/{quizId}/{questionId}/removeQuestion','AdminController@removeQuestion');
 
 
-
+Route::post('addUserAnswer','QuizzesController@addUserAnswer');
 
 
 

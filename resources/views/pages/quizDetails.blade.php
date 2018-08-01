@@ -10,13 +10,17 @@
                 <div class="col-md-8">
 
                     <div class="card">
-                        <form method="POST" action="userAnswer">
+                        <form method="POST" action="/addUserAnswer">
+                            {{csrf_field()}}
+                        <input type="hidden" name="quiz_id" value="{{$quiz->id}}" />
                         @foreach($questions as $question)
                         <div class="card-header">    {{$question->body}}</div>
                             <div class="card-body">
+                                <input type="hidden" value="{{$question->id}}" name="guestion_id">
                                 @foreach($question->answer as $answer)
                                     <div>
-                                        <input type="checkbox" value="{{$answer->id}}" name="answer[]">
+                                        <input type="hidden"    name="answer[{{$answer->id}}]" value="0">
+                                        <input type="checkbox" name="answer[{{$answer->id}}]" value="1" >
                                         <label>{{$answer->body}}</label>
                                     </div>
                                 @endforeach

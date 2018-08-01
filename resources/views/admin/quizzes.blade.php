@@ -45,7 +45,7 @@
 
                     </div>
                     <div class="d-flex flex-column">
-                        <a href="/{{$quiz->id}}/quiz" class="btn-primary btn-sm mb-1"><i class="far fa-eye"></i></a>
+                        <a href="/quiz/{{$quiz->id}}" class="btn-primary btn-sm mb-1"><i class="far fa-eye"></i></a>
                         <a href="/admin/{{$quiz->id}}/editQuiz/" class="btn-primary btn-sm mb-1"><i class="fas fa-pencil-alt"></i></a>
 
                     </div>

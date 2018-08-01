@@ -2,6 +2,7 @@
 
 namespace App;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
@@ -22,5 +23,7 @@ class Question extends Model
 
         return $this->hasOne(QuestionValidAnswerSet::class);
     }
+
+
 
 }

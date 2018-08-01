@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use \App\User;
 use \App\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Http\Response;
 
 
 class QuizPageTest extends TestCase
@@ -80,9 +81,11 @@ class QuizPageTest extends TestCase
 
     public function test_if_quiz_id_is_invalid_user_is_redirected_with_errors(){
 
-            $response = $this->call('/addUserAnswer', 'POST', ['question_id'=>999999999999])
-                ->assertStatus(404);
-            $response->assertSeeText('Invalid Quiz requested');
+             $response = $this->call('POST', '/addUserAnswer', ['quiz_id'=>131212])
+              ->assertStatus(302);
+
+             // $response->assertSee('Invalid Quiz requested');
+
     }
 
 

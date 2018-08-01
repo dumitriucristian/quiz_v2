@@ -29,6 +29,7 @@ class QuizzesController extends Controller
 
         $quiz_id = $request->quiz_id;
 
+
         try{
             Quiz::findOrFail($quiz_id);
 
@@ -36,6 +37,7 @@ class QuizzesController extends Controller
 
             return back()->withErrors(array('errors' =>"Invalid Quiz requested"));
         }
+
 
 
     }

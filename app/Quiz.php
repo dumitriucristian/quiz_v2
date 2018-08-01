@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Quiz extends Model
 {
+
+
 
     protected $fillable = ['title', 'description'];
 
@@ -18,6 +21,7 @@ class Quiz extends Model
     {
         return ( (!$data) || ($data->count() == 0) ) ? false : true;
     }
+
 
 
 
