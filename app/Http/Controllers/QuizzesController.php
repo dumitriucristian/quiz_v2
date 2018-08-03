@@ -28,6 +28,7 @@ class QuizzesController extends Controller
     public function addUserAnswer(Request $request)
     {
 
+       // dd($request);
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
 
@@ -58,7 +59,7 @@ class QuizzesController extends Controller
 
         $quiz = Quiz::find($request->quiz_id);
         $questions = Question::where( 'quiz_id','=',$request->quiz_id )->paginate( 1 );
-
+        //dd($questions->currentPage());
         if(!isset($request->page)){
              $currentPage = $this->getCurrentPage();
         }

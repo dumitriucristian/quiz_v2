@@ -140,6 +140,33 @@ class QuizPageTest extends TestCase
         $response->assertSeeText('Status: In Progress');
     }
 
+    public function if_user_has_not_accesessed_quiz_never_try_this_quiz_status_showed(){
+
+        $response = $this->call('GET','/')->assertStatus(200);
+
+        $response->assertSeeText('Try This Quiz');
+    }
+
+    public function user_quiz_id_is_created_when_user_answer_first_question()
+    {
+        //check if qui_id, user_id do not exist in user_quiz table
+        //save user_quiz
+        $data=[];
+        $data = \App\UserQuiz::find($data);
+        $response = $this->call('POST','/addAnswer', $data)->assertStatus(200);
+    }
+
+    public function test_user_has_no_records_in_user_quiz_table()
+    {
+          $data = array(
+              'user_id'=>1,
+              'quiz_id'=>1
+          );
+       $user_quiz = ( new\App\UserQuiz )->findUserQuiz($data);
+      $this->assertEquals(0, $user_quiz);
+    }
+
+
 
 
 

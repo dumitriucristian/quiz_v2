@@ -17,6 +17,7 @@ class CreateUserQuizzesTable extends Migration
             $table->increments('id');
             $table->integer('quiz_id');
             $table->integer('user_id');
+            $table->dateTime('completed_at')->nullable();
             $table->timestamps();
         });
     }
