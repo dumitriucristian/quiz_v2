@@ -22,10 +22,22 @@
                     <div class="card">
                     @foreach( $quizzes as $quiz)
                         <div class="card-header">
-                            <a href="/quiz/{{$quiz->id}}">
-                                <strong>{{ $quiz->title }} </strong>
-                            </a>
-                            -  {{$quiz->questions->count()}}
+                            <div  class="d-flex justify-content-end">
+                                <div><strong class="d-flex justify-content-end">Status: In Progress</strong> </div>
+                            </div>
+                            <div  class="d-flex justify-content-start">
+                               <div>
+                                   <a href="/quiz/{{$quiz->id}}">
+                                       <strong >{{ $quiz->title }} </strong>
+                                   </a>
+                               </div>
+                                <div>
+                                    -  {{$quiz->questions->count()}}
+                                </div>
+                            </div>
+
+
+
                         </div>
                         <div class="card-body">
                             {{ $quiz->description }}

@@ -118,7 +118,7 @@ class QuizPageTest extends TestCase
 
     }
 
-    public function test_when_user_quiz_start_new_user_quiz_is_created()
+    public function test_user_quiz_is_created()
     {
         $input = array(
             'user_id' => 1,
@@ -131,6 +131,16 @@ class QuizPageTest extends TestCase
         $this->assertSame(1, $output);
 
     }
+
+    public function test_user_can_see_quiz_completion_status_in_progress()
+    {
+
+        //quiz may be started, finished,
+        $response = $this->call('GET','/')->assertStatus(200);
+        $response->assertSeeText('Status: In Progress');
+    }
+
+
 
 
 }
