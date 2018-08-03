@@ -81,10 +81,13 @@ class QuizPageTest extends TestCase
 
     public function test_if_quiz_id_is_invalid_user_is_redirected_with_errors(){
 
-             $response = $this->call('POST', '/addUserAnswer', ['quiz_id'=>131212])
+             $this->call('POST', '/addUserAnswer', ['quiz_id'=>131212])
               ->assertStatus(302);
 
-             // $response->assertSee('Invalid Quiz requested');
+              $response = $this->followingRedirects();
+              $response->contains('"Invalid Quiz requested"');
+
+
 
     }
 
