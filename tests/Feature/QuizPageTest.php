@@ -87,25 +87,16 @@ class QuizPageTest extends TestCase
         $response->contains('"Invalid Quiz requested"');
     }
 
-
-
-    public function user_send_answer()
+    public function test_middleware_redirect_user_to_loginpage_when_not_loggedin()
     {
-        //$this->call("POST",'addUserAnswer')->assertStatus(200);
-        $answers = array(
-                    14 => 0,
-                    15 => 0
-                );
 
-
-        //check if valid quiz_id
-        //check if valid
+        Auth::logout();
+        $request = Request::create('quiz.test', 'GET');
+        $middleware = new \App\Http\Middleware\AuthMiddleware();
+        $response = $middleware->handle($request, function() {  });
+        $this->assertEquals($response->getStatusCode(),302);
+        //https://matthewdaly.co.uk/blog/2016/11/29/testing-laravel-middleware/
     }
-
-
-
-
-
 
 
 }
