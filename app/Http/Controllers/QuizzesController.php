@@ -40,7 +40,15 @@ class QuizzesController extends Controller
             return back()->withErrors(array('errors' =>"Invalid Quiz requested"));
         }
 
-        dd(Auth::user());
+        $answers = $request->answer;
+
+        if(in_array(1,$answers) === false ){
+            return back()->withErrors(array('errors' =>"Invalid answer. Empty answer"));
+        }
+
+
+
+
 
     }
 

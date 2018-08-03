@@ -110,5 +110,17 @@ class QuizPageTest extends TestCase
 
     }
 
+    public function test_set_user_answer_form()
+    {
+       $input = array('user_id'=>1, 'question_id'=> 1, 'quiz_session'=>md5(str_shuffle('abcdefghiJKLMNOPQRS')),'answers'=> [0,1]);
+
+       $output =  (new \App\UserAnswerSet)->setUserAnswer($input);
+
+
+       $this->assertSame('01', $output);
+
+    }
+
+
 
 }
