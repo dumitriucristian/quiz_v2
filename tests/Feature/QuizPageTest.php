@@ -112,15 +112,25 @@ class QuizPageTest extends TestCase
 
     public function test_set_user_answer_form()
     {
-       $input = array('user_id'=>1, 'question_id'=> 1, 'quiz_session'=>md5(str_shuffle('abcdefghiJKLMNOPQRS')),'answers'=> [0,1]);
-
+       $input = array('user_id'=>1, 'question_id'=> 1, 'user_quiz_id'=>1,'answers'=> [0,1]);
        $output =  (new \App\UserAnswerSet)->setUserAnswer($input);
-
-
        $this->assertSame('01', $output);
 
     }
 
+    public function test_when_user_quiz_start_new_user_quiz_is_created()
+    {
+        $input = array(
+            'user_id' => 1,
+            'quiz_id' => 1
+        );
+
+        $output = 1; //UserQuiz->id
+
+        $output =  (new \App\UserQuiz)->init($input);
+        $this->assertSame(1, $output);
+
+    }
 
 
 }
