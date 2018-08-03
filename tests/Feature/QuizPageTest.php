@@ -98,5 +98,17 @@ class QuizPageTest extends TestCase
         //https://matthewdaly.co.uk/blog/2016/11/29/testing-laravel-middleware/
     }
 
+    public function test_if_user_submit_answer_without_an_answer_show_error_and_redirect()
+    {
+            $this->call('POST', '/addUserAnswer', array(
+                'quiz_id'=>1,
+                'question_id' =>1,
+                'answer'=>[0,0]
+            ))->assertStatus(302);
+            $response = $this->followingRedirects();
+            $response->contains("Invalid answer. Empty answer");
+
+    }
+
 
 }
