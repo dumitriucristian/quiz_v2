@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use \App\Quiz;
 use \App\Question;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 
 
 class QuizzesController extends Controller
@@ -28,17 +29,18 @@ class QuizzesController extends Controller
     {
 
         $quiz_id = $request->quiz_id;
-
+        $question_id = $request->question_id;
 
         try{
             Quiz::findOrFail($quiz_id);
+            Question::findOrFail($question_id);
 
         }catch( ModelNotFoundException $Ex){
 
             return back()->withErrors(array('errors' =>"Invalid Quiz requested"));
         }
 
-
+        dd(Auth::user());
 
     }
 

@@ -12,7 +12,8 @@ use \App\User;
 use \App\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class QuizPageTest extends TestCase
 {
@@ -34,17 +35,6 @@ class QuizPageTest extends TestCase
             );
 
     }
-
-    public function test_quiz_id_exist()
-    {
-
-       $this->assertInstanceOf(Collection::class, static::$quiz);
-
-       $request = $this->call('GET','/quiz/{id}', ['id' => 1])
-           ->assertViewIs('pages.quizDetails')
-           ->assertStatus(200);
-    }
-
 
     public function test_quiz_page_with_invalid_id_throw_error()
     {
@@ -82,13 +72,19 @@ class QuizPageTest extends TestCase
     public function test_if_quiz_id_is_invalid_user_is_redirected_with_errors(){
 
              $this->call('POST', '/addUserAnswer', ['quiz_id'=>131212])
-              ->assertStatus(302);
+                  ->assertStatus(302);
 
               $response = $this->followingRedirects();
               $response->contains('"Invalid Quiz requested"');
+    }
 
+    public function test_if_question_id_is_invalid_user_is_redirected_with_errors(){
 
+        $this->call('POST', '/addUserAnswer', ['question_id'=>131212])
+            ->assertStatus(302);
 
+        $response = $this->followingRedirects();
+        $response->contains('"Invalid Quiz requested"');
     }
 
 

@@ -4,7 +4,7 @@
     @if( $errors && count($errors) > 0 )
 
         @include('includes.error');
-    @else
+    @endif
          <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -16,7 +16,7 @@
                         @foreach($questions as $question)
                         <div class="card-header">    {{$question->body}}</div>
                             <div class="card-body">
-                                <input type="hidden" value="{{$question->id}}" name="guestion_id">
+                                <input type="hidden" value="{{$question->id}}" name="question_id">
                                 @foreach($question->answer as $answer)
                                     <div>
                                         <input type="hidden"    name="answer[{{$answer->id}}]" value="0">
@@ -33,5 +33,5 @@
                  </div>
             </div>
         </div>
-    @endif
+
 @endsection
