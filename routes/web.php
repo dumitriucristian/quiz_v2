@@ -15,7 +15,7 @@
 Auth::routes();
 
 Route::get('/',                 'QuizzesController@homePage');
-Route::get('/home',             'HomeController@index')->name('home');
+Route::get('/home',             'QuizzesController@homePage');
 Route::get('/quiz/{quiz_id}',   'QuizzesController@quizDetails');
 
 Route::get('/admin/{questionId}/addAnswer', 'AdminController@addAnswer');

@@ -18,13 +18,14 @@ class AuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(
-            !Auth::user() &&
-            ( URL::current() != 'http://quiz.test/login') &&
-            ( URL::current() != 'http://quiz.test/register')
 
+        if(
+            ( Auth::check() == false )
+            && ( URL::current() != 'http://quiz.test/login')
+            && ( URL::current() != 'http://quiz.test/register')
         ){
-            return  redirect('/login');
+
+            return redirect('/login');
 
         }
         return $next($request);
