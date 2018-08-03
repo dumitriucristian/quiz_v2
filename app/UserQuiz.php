@@ -22,11 +22,11 @@ class UserQuiz extends Model
     public function findUserQuiz($data){
 
 
-      return   DB::table($this->table)
-            ->where($data['quiz_id'] , '=','quiz_id')
-            ->where($data['user_id'],'=', 'user_id')
+      return   DB::table($this->getTable())
+            ->where('quiz_id' , '=',$data['quiz_id'])
+            ->where('user_id','=', $data['user_id'])
             ->where('completed_at', '!=' ,'NULL')
-            ->count('*');
+            ->count();
 
     }
 
