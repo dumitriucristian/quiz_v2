@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserQuiz extends Model
 {
-
+    protected $fillable = ['quiz_id', 'user_id','completed_at'];
 
     public function init($data)
     {
@@ -22,11 +22,11 @@ class UserQuiz extends Model
     public function findUserQuiz($data){
 
 
-      return   DB::table($this->getTable())
-            ->where('quiz_id' , '=',$data['quiz_id'])
-            ->where('user_id','=', $data['user_id'])
-            ->where('completed_at', '!=' ,'NULL')
-            ->count();
+        return  DB::table($this->getTable())
+                ->where('quiz_id' , '=',$data['quiz_id'])
+                ->where('user_id','=', $data['user_id'])
+                ->where('completed_at', '=' ,NULL)
+                ->count();
 
     }
 
