@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuizPageTest extends TestCase
 {
@@ -91,11 +92,13 @@ class QuizPageTest extends TestCase
     {
 
         Auth::logout();
-        $request = Request::create('quiz.test', 'GET');
+        $url = url()->current('/');
+        $request = Request::create($url, 'GET');
         $middleware = new \App\Http\Middleware\AuthMiddleware();
         $response = $middleware->handle($request, function() {  });
         $this->assertEquals($response->getStatusCode(),302);
         //https://matthewdaly.co.uk/blog/2016/11/29/testing-laravel-middleware/
+
     }
 
     public function test_if_user_submit_answer_without_an_answer_show_error_and_redirect()
@@ -147,17 +150,13 @@ class QuizPageTest extends TestCase
         $response->assertSeeText('Try This Quiz');
     }
 
-    public function test_user_quiz_id_is_created_when_user_answer_first_question()
+    public function user_quiz_id_is_created_when_user_answer_first_question()
     {
-        //check if qui_id, user_id do not exist in user_quiz table
-        //save user_quiz
-        $data =array('user_id'=>1,
-              'quiz_id'=>1);
 
-        $this->call('POST','/addUserAnswer', $data)->assertStatus(302);
-        
+        $factory = factory(\App\UserQuizFactory::class, 1)->make();
+        dd($factory);
+        $user_quiz = ( new \App\UserQuiz )->findUserQuiz();
 
-        $user_quiz = ( new\App\UserQuiz )->findUserQuiz($data);
         $this->assertEquals(1, $user_quiz);
 
     }
@@ -168,12 +167,26 @@ class QuizPageTest extends TestCase
               'user_id'=>1,
               'quiz_id'=>1
           );
-       $user_quiz = ( new\App\UserQuiz )->findUserQuiz($data);
-      $this->assertEquals(0, $user_quiz);
+
+          $user_quiz = ( new\App\UserQuiz )->findUserQuiz($data);
+         $this->assertEquals(0, $user_quiz);
     }
 
+    public function test_user_should_be_redirected_to_next_question()
+    {
+        $data =array(
+            'user_id'=>1,
+            'quiz_id'=>1
+        );
+
+        $this->call('POST','/addUserAnswer', $data)->assertStatus(302);
+
+        //if the current question is last
+        //redirect to quiz review page
 
 
+        //if the current question is not last redirect to next question
+    }
 
 
 }
