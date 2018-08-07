@@ -20,7 +20,6 @@ class AuthMiddleware
     {
 
         if(
-
             ( Auth::check() == false )
             && ( $request->route()->uri != 'login')
             && ( $request->route()->uri != 'register')
