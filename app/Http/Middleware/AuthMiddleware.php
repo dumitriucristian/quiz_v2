@@ -20,9 +20,10 @@ class AuthMiddleware
     {
 
         if(
+
             ( Auth::check() == false )
-            && ( URL::current() != 'http://quiz.test/login')
-            && ( URL::current() != 'http://quiz.test/register')
+            && ( $request->route()->uri != 'login')
+            && ( $request->route()->uri != 'register')
         ){
 
             return redirect('/login');
