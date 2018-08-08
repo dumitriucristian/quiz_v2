@@ -28,6 +28,8 @@ class QuizzesController extends Controller
     public function addUserAnswer(Request $request)
     {
 
+
+
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
 
@@ -60,6 +62,15 @@ class QuizzesController extends Controller
            $userQuiz->save();
 
         };
+        //dd($request->nextPage);
+
+        if($request->nextPage != null){
+
+            return redirect( $request->nextPage );
+        }
+
+
+        return back();
     }
 
 

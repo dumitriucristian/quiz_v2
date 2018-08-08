@@ -117,7 +117,7 @@ class QuizPageTest extends TestCase
     public function test_set_user_answer_form()
     {
        $input = array('user_id'=>1, 'question_id'=> 1, 'user_quiz_id'=>1,'answers'=> [0,1]);
-       $output =  (new \App\UserAnswerSet)->setUserAnswer($input);
+       $output =  \App\UserAnswerSet::setUserAnswer($input);
        $this->assertSame('01', $output);
 
     }
@@ -131,7 +131,7 @@ class QuizPageTest extends TestCase
 
         $output = 1; //UserQuiz->id
 
-        $output =  (new \App\UserQuiz)->init($input);
+        $output =  UserQuiz::init($input);
         $this->assertSame(1, $output);
 
     }
@@ -151,6 +151,7 @@ class QuizPageTest extends TestCase
         $response->assertSeeText('Try This Quiz');
     }
 
+
     public function test_user_quiz_is_created_when_user_answer_first_question()
     {
 
@@ -163,12 +164,11 @@ class QuizPageTest extends TestCase
             'quiz_id' => $userQuiz->quiz_id
         );
 
-        $user_quiz = ( new \App\UserQuiz )->findUserQuiz($data);
+        $user_quiz = UserQuiz::findUserQuiz($data);
 
         $this->assertEquals(1, $user_quiz);
 
     }
-
 
 
     public function test_user_has_no_records_in_user_quiz_table()
@@ -178,16 +178,25 @@ class QuizPageTest extends TestCase
               'quiz_id'=>1
           );
 
-          $user_quiz = ( new\App\UserQuiz )->findUserQuiz($data);
-         $this->assertEquals(0, $user_quiz);
+          $user_quiz = UserQuiz::findUserQuiz($data);
+          $this->assertEquals(0, $user_quiz);
     }
+
 
     public function test_user_should_be_redirected_to_next_question()
     {
-        $data =array(
-            'user_id'=>1,
-            'quiz_id'=>1
+        factory(UserQuiz::class, 1)->create();
+
+        $userQuiz = UserQuiz::first();
+
+        $data = array(
+            'user_id' =>  $userQuiz->user_id,
+            'quiz_id' => $userQuiz->quiz_id
         );
+
+        $user_quiz = UserQuiz::findUserQuiz($data);
+
+        $this->assertEquals(1, $user_quiz);
 
         $this->call('POST','/addUserAnswer', $data)->assertStatus(302);
 
@@ -196,6 +205,22 @@ class QuizPageTest extends TestCase
 
 
         //if the current question is not last redirect to next question
+    }
+
+    public function test_user_has_next_question()
+    {
+        $nextPage = "quiz/1?page=2";
+
+        $data = array(
+            "nextPage" =>   $nextPage,
+            "user_id" => 1,
+            "question_id" => 1,
+            "quiz_id" => 1,
+            "answer" => [1,0]
+        );
+
+        $this->call('POST','/addUserAnswer', $data)->assertRedirect($nextPage);
+
     }
 
 

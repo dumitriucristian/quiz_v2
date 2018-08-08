@@ -13,7 +13,9 @@
                         <form method="POST" action="/addUserAnswer">
                             {{csrf_field()}}
                         <input type="hidden" name="quiz_id" value="{{$quiz->id}}" />
+                        <input type="hidden" name="nextPage" value="{{$questions->nextPageUrl()}}" />
                         @foreach($questions as $question)
+
                         <div class="card-header">    {{$question->body}}</div>
                             <div class="card-body">
                                 <input type="hidden" value="{{$question->id}}" name="question_id">
@@ -28,6 +30,7 @@
                             </div>
                         @endforeach()
                         </form>
+
                        <div class="m-auto">{{$questions->links()}}</div>
                     </div>
                  </div>

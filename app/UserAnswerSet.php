@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserAnswerSet extends Model
 {
-    public function setUserAnswer($data)
+    public function scopeSetUserAnswer($query, $data)
     {
         return $answer = implode('',$data['answers']);
 
