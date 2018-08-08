@@ -223,5 +223,70 @@ class QuizPageTest extends TestCase
 
     }
 
+    public function test_answer_set_is_made_when_user_submit_answer()
+    {
+        $input = array(
+          'answers'=> [
+              0=>0,
+              1=>1
+          ]
+        );
+
+        $output = '01';
+        $response = \App\UserAnswerSet::setUserAnswer($input);
+        $this->assertEquals($response, $output);
+
+
+    }
+
+
+
+
+
+
+
+    //todo - user add answer_set
+    public function user_can_save_answer_set()
+    {
+        $input = array(
+            'answers'=> [
+                0=>0,
+                1=>1
+            ]
+        );
+
+        $output = '01';
+        $response = \App\UserAnswerSet::setUserAnswer($input);
+
+        $data = array(
+            'user_quizzes'
+        );
+
+        factory(\App\UserAnswerSet::class,1)->create($data);
+
+    }
+
+    /** todo - user can update answer */
+    public function user_can_update_answer()
+    {
+        $nextPage = "quiz/1?page=2";
+
+        $answer = array(
+            "nextPage" =>  $nextPage,
+            "user_id" => 1,
+            "question_id" => 1,
+            "quiz_id" => 1,
+            "answer" => [1,0]
+        );
+
+        factory(UserQuiz::class, 1)->create($answer);
+
+        //if answer exist
+        //update answer
+
+
+    }
+
+
 
 }

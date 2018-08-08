@@ -62,7 +62,7 @@ class QuizzesController extends Controller
            $userQuiz->save();
 
         };
-        //dd($request->nextPage);
+
 
         if($request->nextPage != null){
 
