@@ -9,6 +9,7 @@ class UserQuiz extends Model
 {
     protected $fillable = ['quiz_id', 'user_id','completed_at'];
 
+
     public function init($data)
     {
         $this->user_id = $data['user_id'];
@@ -29,5 +30,6 @@ class UserQuiz extends Model
                 ->count();
 
     }
+
 
 }

@@ -28,7 +28,6 @@ class QuizzesController extends Controller
     public function addUserAnswer(Request $request)
     {
 
-
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
 
@@ -46,23 +45,23 @@ class QuizzesController extends Controller
         if(in_array(1,$answers) === false ){
             return back()->withErrors(array('errors' =>"Invalid answer. Empty answer"));
         }
+
         $data = ['user_id' => Auth::User()->id, 'quiz_id'=>$quiz_id ];
+
         $userQuiz = new \App\UserQuiz;
+
         if($userQuiz->findUserQuiz($data) == 0){
 
             $userQuiz->quiz_id = $quiz_id;
             $userQuiz->user_id = Auth::User()->id;
-            $userQuiz->completed_at = date('Y-m-d H-i-s', time());
+            //@todo completed at must be recorded when the user hit the submit quiz answers button;
+           // $userQuiz->completed_at = date('Y-m-d H-i-s', time());
 
-            $s = $userQuiz->save();
+           $userQuiz->save();
 
         };
-
-
-
-
-
     }
+
 
     public function quizDetails(Request $request)
     {
@@ -114,9 +113,6 @@ class QuizzesController extends Controller
 
         return $this->currentPage()-1;
     }
-
-
-
 
 
 }

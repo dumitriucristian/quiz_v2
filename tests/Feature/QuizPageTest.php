@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use \App\User;
 use \App\Quiz;
+use \App\UserQuiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -150,16 +151,25 @@ class QuizPageTest extends TestCase
         $response->assertSeeText('Try This Quiz');
     }
 
-    public function user_quiz_id_is_created_when_user_answer_first_question()
+    public function test_user_quiz_is_created_when_user_answer_first_question()
     {
 
-        $factory = factory(\App\UserQuizFactory::class, 1)->make();
-        dd($factory);
-        $user_quiz = ( new \App\UserQuiz )->findUserQuiz();
+       factory(UserQuiz::class, 1)->create();
+
+        $userQuiz = UserQuiz::first();
+
+        $data = array(
+            'user_id' =>  $userQuiz->user_id,
+            'quiz_id' => $userQuiz->quiz_id
+        );
+
+        $user_quiz = ( new \App\UserQuiz )->findUserQuiz($data);
 
         $this->assertEquals(1, $user_quiz);
 
     }
+
+
 
     public function test_user_has_no_records_in_user_quiz_table()
     {
