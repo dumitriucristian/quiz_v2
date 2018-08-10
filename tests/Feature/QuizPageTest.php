@@ -239,30 +239,42 @@ class QuizPageTest extends TestCase
 
     }
 
-
-
-
-
-
-
-    //todo - user add answer_set
-    public function user_can_save_answer_set()
+   //todo - user add answer_set
+    public function test_user_can_save_answer_set()
     {
-        $input = array(
-            'answers'=> [
-                0=>0,
-                1=>1
-            ]
+
+        $nextPage = "quiz/1?page=2";
+
+        $answer = array(
+            "nextPage" =>  $nextPage,
+            "user_id" => 1,
+            "question_id" => 1,
+            "quiz_id" => 1,
+            "answer" => [1,0]
         );
 
-        $output = '01';
-        $response = \App\UserAnswerSet::setUserAnswer($input);
+        $answer =  factory(UserQuiz::class, 1)->create($answer);
+       dd( $answer );
+        $answerSetData = array(
+            'user_quiz_id'=>'',
+            'question_id' => '',
+            'answer_set' =>'',
+            'is_valid_answer_set'=>''
+        );
+        $answerSet = factory(UserAnswerSet::class,1)->create($answerSetData);
 
+
+        factory(\App\UserAnswerSet::class,1)->create($data);
+        //given a user when submit an answer,
+        //when user  receive a quiz id,
+            //answer set is created
+            //answer set is checked for validation
+        //then  is save in answer set table
         $data = array(
             'user_quizzes'
         );
 
-        factory(\App\UserAnswerSet::class,1)->create($data);
+
 
     }
 
