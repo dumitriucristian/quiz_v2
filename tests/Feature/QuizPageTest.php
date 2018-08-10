@@ -155,7 +155,7 @@ class QuizPageTest extends TestCase
     public function test_user_quiz_is_created_when_user_answer_first_question()
     {
 
-       factory(UserQuiz::class, 1)->create();
+       factory(\App\UserQuiz::class, 1)->create();
 
         $userQuiz = UserQuiz::first();
 
