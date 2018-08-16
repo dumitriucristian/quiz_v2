@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\UserAnswerSet;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
@@ -207,21 +208,7 @@ class QuizPageTest extends TestCase
         //if the current question is not last redirect to next question
     }
 
-    public function test_user_has_next_question()
-    {
-        $nextPage = "quiz/1?page=2";
 
-        $data = array(
-            "nextPage" =>   $nextPage,
-            "user_id" => 1,
-            "question_id" => 1,
-            "quiz_id" => 1,
-            "answer" => [1,0]
-        );
-
-        $this->call('POST','/addUserAnswer', $data)->assertRedirect($nextPage);
-
-    }
 
     public function test_answer_set_is_made_when_user_submit_answer()
     {
@@ -246,33 +233,36 @@ class QuizPageTest extends TestCase
         $nextPage = "quiz/1?page=2";
 
         $answer = array(
-            "nextPage" =>  $nextPage,
             "user_id" => 1,
-            "question_id" => 1,
-            "quiz_id" => 1,
-            "answer" => [1,0]
+            "quiz_id" => 1
+
         );
 
         $answer =  factory(UserQuiz::class, 1)->create($answer);
-       dd( $answer );
+
         $answerSetData = array(
-            'user_quiz_id'=>'',
-            'question_id' => '',
-            'answer_set' =>'',
-            'is_valid_answer_set'=>''
+
+            'user_quiz_id'=>$answer->first()->id,
+            'question_id' => 1,
+            'user_answer_set' =>'10',
+            'is_valid'=>TRUE
         );
-        $answerSet = factory(UserAnswerSet::class,1)->create($answerSetData);
+        $answerSet = factory(\App\UserAnswerSet::class,1)->create($answerSetData);
+       // dd($answerSet->count());
+        $this->assertEquals(1, $answerSet->count());
 
 
-        factory(\App\UserAnswerSet::class,1)->create($data);
+
+
+       // factory(\App\UserAnswerSet::class,1)->create($data);
         //given a user when submit an answer,
         //when user  receive a quiz id,
             //answer set is created
             //answer set is checked for validation
         //then  is save in answer set table
-        $data = array(
-            'user_quizzes'
-        );
+     //   $data = array(
+       //     'user_quizzes'
+       // );
 
 
 
@@ -299,6 +289,44 @@ class QuizPageTest extends TestCase
 
     }
 
+    public function test_AnswerSet_save_answer_set(){
 
+        $validAnswer = array(
+            'id'=>1,
+            'question_id'=>1,
+            'valid_answer' =>'10'
+            //'answers' =>array('1'=>'1', '2'=>'0')
+        );
+
+        factory(\App\QuestionValidAnswerSet::class,1)->create($validAnswer);
+
+        $answer = array(
+
+            "question_id" => 1,
+            "user_quiz_id" => 1,
+            "user_answer_id" => 1,
+            "user_answer_set" => '10',
+            'answers' => array('1'=>'1', '2'=>'0')
+
+        );
+
+
+        \App\UserAnswerSet::SaveAnswerSet($answer);
+
+        $this->assertEquals( 1, \App\UserAnswerSet::all()->count() );
+    }
+
+    public function test_question_has_valid_answer()
+    {
+        $data = array(
+            'id'=>1,
+            'question_id'=>1,
+            'valid_answer' =>'10'
+        );
+
+        factory(\App\QuestionValidAnswerSet::class,1)->create($data);
+
+        $this->assertEquals('10', \App\QuestionValidAnswerSet::getValidAnswerSetbyQuestionId(1));
+    }
 
 }
