@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class UserAnswerSet extends Model
 {
@@ -35,5 +36,17 @@ class UserAnswerSet extends Model
         return ( \App\QuestionValidAnswerSet::getValidAnswerSetByQuestionId($question_id)  == $answer) ? TRUE : FALSE ;
         // and compare with the current answer
 
+    }
+
+    public function scopeUserAnswerSetExist($query, $data)
+    {
+      $nrOfResults =  DB::table($this->getTable())
+                    ->select('count(*)')
+                    ->where('user_quiz_id', $data['user_quiz_id'])
+                    ->where('question_id', $data['question_id'] )
+                    ->count();
+
+
+      return ($nrOfResults > 0) ? true : false ;
     }
 }

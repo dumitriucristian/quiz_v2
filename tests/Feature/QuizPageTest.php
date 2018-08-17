@@ -247,24 +247,10 @@ class QuizPageTest extends TestCase
             'user_answer_set' =>'10',
             'is_valid'=>TRUE
         );
+
         $answerSet = factory(\App\UserAnswerSet::class,1)->create($answerSetData);
-       // dd($answerSet->count());
+
         $this->assertEquals(1, $answerSet->count());
-
-
-
-
-       // factory(\App\UserAnswerSet::class,1)->create($data);
-        //given a user when submit an answer,
-        //when user  receive a quiz id,
-            //answer set is created
-            //answer set is checked for validation
-        //then  is save in answer set table
-     //   $data = array(
-       //     'user_quizzes'
-       // );
-
-
 
     }
 
@@ -310,7 +296,6 @@ class QuizPageTest extends TestCase
 
         );
 
-
         \App\UserAnswerSet::SaveUserAnswerSet($answer);
 
         $this->assertEquals( 1, \App\UserAnswerSet::all()->count() );
@@ -327,6 +312,28 @@ class QuizPageTest extends TestCase
         factory(\App\QuestionValidAnswerSet::class,1)->create($data);
 
         $this->assertEquals('10', \App\QuestionValidAnswerSet::getValidAnswerSetbyQuestionId(1));
+    }
+
+    public function test_if_answer_set_already_exist()
+    {
+         $data = array(
+            'user_quiz_id'=>1,
+            'question_id'=>1,
+            'user_answer_set' =>'10',
+             'is_valid'=>true
+        );
+
+        factory(\App\UserAnswerSet::class,1)->create($data);
+
+        $newData = array(
+            'user_quiz_id'=>1,
+            'question_id'=>1,
+            'user_answer_set' =>'01'
+        );
+
+        $this->assertTrue( \App\UserAnswerSet::userAnswerSetExist($newData));
+
+
     }
 
 }
