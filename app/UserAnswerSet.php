@@ -34,19 +34,43 @@ class UserAnswerSet extends Model
 
         //get valid answer
         return ( \App\QuestionValidAnswerSet::getValidAnswerSetByQuestionId($question_id)  == $answer) ? TRUE : FALSE ;
-        // and compare with the current answer
+
 
     }
 
     public function scopeUserAnswerSetExist($query, $data)
     {
-      $nrOfResults =  DB::table($this->getTable())
-                    ->select('count(*)')
-                    ->where('user_quiz_id', $data['user_quiz_id'])
-                    ->where('question_id', $data['question_id'] )
-                    ->count();
 
+        return (   $this->scopeCountUserAnswerSet($query, $data) > 0) ? true : false ;
+    }
 
-      return ($nrOfResults > 0) ? true : false ;
+    public function scopeCountUserAnswerSet($query, $data)
+    {
+       return DB::table($this->getTable())
+            ->select('count(*)')
+            ->where('user_quiz_id', $data['user_quiz_id'])
+            ->where('question_id', $data['question_id'] )
+            ->count();
+
+    }
+
+    public function scopeUpdateUserAnswerSet($quesry, $data)
+    {
+        DB::table($this->getTable())
+            ->where('user_quiz_id', $data['user_quiz_id'])
+            ->where('question_id', $data['question_id'] )
+            ->update([ 'user_answer_set' => $data['user_answer_set'] ]);
+
+    }
+
+    public function scopeGetUserAnswerSet($quesry, $data)
+    {
+
+     return  DB::table($this->getTable())
+            ->select('user_answer_set')
+            ->where('user_quiz_id', $data['user_quiz_id'])
+            ->where('question_id', $data['question_id'] )
+            ->get()->first()->user_answer_set;
+
     }
 }

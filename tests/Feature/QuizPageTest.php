@@ -314,7 +314,7 @@ class QuizPageTest extends TestCase
         $this->assertEquals('10', \App\QuestionValidAnswerSet::getValidAnswerSetbyQuestionId(1));
     }
 
-    public function test_if_answer_set_already_exist()
+    public function test_if_answer_set_already_exist_update_answer()
     {
          $data = array(
             'user_quiz_id'=>1,
@@ -333,6 +333,12 @@ class QuizPageTest extends TestCase
 
         $this->assertTrue( \App\UserAnswerSet::userAnswerSetExist($newData));
 
+        //can exist only one answer with the same question_id and user_quiz_id
+        $this->assertEquals(1, \App\UserAnswerSet::countUserAnswerSet($newData));
+
+        \App\UserAnswerSet::updateUserAnswerSet($newData);
+
+        $this->assertEquals('01',\App\UserAnswerSet::getUserAnswerSet($newData));
 
     }
 
