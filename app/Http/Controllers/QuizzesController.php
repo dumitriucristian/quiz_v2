@@ -73,7 +73,16 @@ class QuizzesController extends Controller
                 "user_answer_set" => \App\UserAnswerSet::setUserAnswer($answers)
             );
 
-             \App\UserAnswerSet::saveUserAnswerSet($answerData);
+            //insert
+            if(\App\UserAnswerSet::userAnswerSetExist($answerData) == false){
+                \App\UserAnswerSet::saveUserAnswerSet($answerData);
+            }
+
+            //update
+            if(\App\UserAnswerSet::userAnswerSetExist($answerData) == true) {
+                \App\UserAnswerSet::updateUserAnswerSet($answerData);
+            }
+
         };
 
 
