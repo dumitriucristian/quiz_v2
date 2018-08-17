@@ -342,4 +342,15 @@ class QuizPageTest extends TestCase
 
     }
 
+    public function test_user_save_each_answer()
+    {
+        $answers = array(
+            1 => "1",
+            2 => "0"
+        );
+
+        
+    }
+
+
 }
