@@ -59,7 +59,12 @@ class UserAnswerSet extends Model
         DB::table($this->getTable())
             ->where('user_quiz_id', $data['user_quiz_id'])
             ->where('question_id', $data['question_id'] )
-            ->update([ 'user_answer_set' => $data['user_answer_set'] ]);
+            ->update(
+                [
+                    'user_answer_set' => $data['user_answer_set'],
+                    'is_valid' =>  $this->isValid($data['question_id'], $data['user_answer_set'] )
+                ]
+            );
 
     }
 
