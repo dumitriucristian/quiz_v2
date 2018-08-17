@@ -28,8 +28,6 @@ class QuizzesController extends Controller
     public function addUserAnswer(Request $request)
     {
 
-        //dd($request);
-
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
 
@@ -48,11 +46,18 @@ class QuizzesController extends Controller
             return back()->withErrors(array('errors' =>"Invalid answer. Empty answer"));
         }
 
-        $data = ['user_id' => Auth::User()->id, 'quiz_id'=>$quiz_id, 'question_id'=>$question_id ];
+        $userQuizData = array(
+            'user_id' => Auth::User()->id,
+            'quiz_id'=>$quiz_id,
+            'question_id'=>$question_id
+        );
 
-        $userQuiz = new \App\UserQuiz;
 
-        if($userQuiz->findUserQuiz($data) == 0){
+
+        if(\App\UserQuiz::findUserQuiz($userQuizData) == 0){
+
+
+            $userQuiz = new \App\UserQuiz;
 
             $userQuiz->quiz_id = $quiz_id;
             $userQuiz->user_id = Auth::User()->id;
@@ -60,18 +65,15 @@ class QuizzesController extends Controller
            // $userQuiz->completed_at = date('Y-m-d H-i-s', time());
 
            $userQuiz->save();
+        }else{
 
+            $answerData = array(
+                "question_id" => $question_id,
+                "user_quiz_id" =>  \App\UserQuiz::findUserQuiz($userQuizData),
+                "user_answer_set" => \App\UserAnswerSet::setUserAnswer($answers)
+            );
 
-           $answerData = array(
-
-               "question_id" => $question_id,
-               "user_quiz_id" => $userQuiz->id,
-               "user_answer_set" => '10'
-
-           );
-
-           \App\UserAnswerSet::saveUserAnswerSet($answerData);
-
+             \App\UserAnswerSet::saveUserAnswerSet($answerData);
         };
 
 

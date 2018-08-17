@@ -9,13 +9,13 @@ class UserAnswerSet extends Model
 
     protected $guarded = array('id');
 
-    public function scopeSetUserAnswer($query, $data)
+    public function scopeSetUserAnswer($query, $answers)
     {
-        return $answer = implode('',$data['answers']);
+        return $answer = implode('',$answers);
 
     }
 
-    public function scopeSaveAnswerSet($query, $data)
+    public function scopeSaveUserAnswerSet($query, $data)
     {
 
         $userAnswerSet = new UserAnswerSet();

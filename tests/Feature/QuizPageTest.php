@@ -117,7 +117,7 @@ class QuizPageTest extends TestCase
 
     public function test_set_user_answer_form()
     {
-       $input = array('user_id'=>1, 'question_id'=> 1, 'user_quiz_id'=>1,'answers'=> [0,1]);
+       $input = array( 0, 1);
        $output =  \App\UserAnswerSet::setUserAnswer($input);
        $this->assertSame('01', $output);
 
@@ -213,10 +213,10 @@ class QuizPageTest extends TestCase
     public function test_answer_set_is_made_when_user_submit_answer()
     {
         $input = array(
-          'answers'=> [
+
               0=>0,
               1=>1
-          ]
+
         );
 
         $output = '01';
@@ -311,7 +311,7 @@ class QuizPageTest extends TestCase
         );
 
 
-        \App\UserAnswerSet::SaveAnswerSet($answer);
+        \App\UserAnswerSet::SaveUserAnswerSet($answer);
 
         $this->assertEquals( 1, \App\UserAnswerSet::all()->count() );
     }
