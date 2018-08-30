@@ -10,6 +10,7 @@ class UserQuiz extends Model
     protected $fillable = ['quiz_id', 'user_id','completed_at'];
 
 
+
     public function scopeInit($query, $data)
     {
         $this->user_id = $data['user_id'];
