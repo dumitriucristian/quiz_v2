@@ -101,7 +101,7 @@ class QuizzesController extends Controller
     {
 
 
-
+       // find user_quiz_id to count how many questions user answered
         $quiz = Quiz::find($request->quiz_id);
         $questions = Question::where( 'quiz_id','=',$request->quiz_id )->paginate( 1 );
 
