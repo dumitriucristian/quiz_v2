@@ -14,6 +14,7 @@ class QuizzesController extends Controller
 {
     public function homePage()
     {
+
             $quizzes = Quiz::all();
 
             if( !$quizzes || $quizzes->count() == 0) {
@@ -27,6 +28,7 @@ class QuizzesController extends Controller
 
     public function addUserAnswer(Request $request)
     {
+        //dd($request);
 
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
@@ -51,8 +53,6 @@ class QuizzesController extends Controller
             'quiz_id'=>$quiz_id,
             'question_id'=>$question_id
         );
-
-
 
         if(\App\UserQuiz::findUserQuiz($userQuizData) == 0){
 

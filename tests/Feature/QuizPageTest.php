@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\QuestionValidAnswerSet;
 use App\UserAnswerSet;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -316,14 +317,22 @@ class QuizPageTest extends TestCase
 
     public function test_if_answer_set_already_exist_update_answer()
     {
-         $data = array(
+
+        $questionValidAnswerData = array(
+            'question_id' => 1,
+            'valid_answer'=>'10',
+
+        );
+        factory(QuestionValidAnswerSet::class, 1 )->create($questionValidAnswerData);
+
+        $data = array(
             'user_quiz_id'=>1,
             'question_id'=>1,
             'user_answer_set' =>'10',
              'is_valid'=>true
         );
 
-        factory(\App\UserAnswerSet::class,1)->create($data);
+        factory(UserAnswerSet::class,1)->create($data);
 
         $newData = array(
             'user_quiz_id'=>1,
@@ -331,14 +340,14 @@ class QuizPageTest extends TestCase
             'user_answer_set' =>'01'
         );
 
-        $this->assertTrue( \App\UserAnswerSet::userAnswerSetExist($newData));
+        $this->assertTrue( UserAnswerSet::userAnswerSetExist($newData));
 
         //can exist only one answer with the same question_id and user_quiz_id
-        $this->assertEquals(1, \App\UserAnswerSet::countUserAnswerSet($newData));
+        $this->assertEquals(1, UserAnswerSet::countUserAnswerSet($newData));
 
-        \App\UserAnswerSet::updateUserAnswerSet($newData);
+        UserAnswerSet::updateUserAnswerSet($newData);
 
-        $this->assertEquals('01',\App\UserAnswerSet::getUserAnswerSet($newData));
+        $this->assertEquals('01', UserAnswerSet::getUserAnswerSet($newData));
 
     }
 
@@ -349,7 +358,12 @@ class QuizPageTest extends TestCase
             2 => "0"
         );
 
-        
+        $answers = factory(\App\UserAnswer::class)->create($answers);
+
+        $this->assertEquals(2, \App\UserAnswer::getAllUserAnswers());
+
+
+
     }
 
 

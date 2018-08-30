@@ -33,7 +33,7 @@ class UserAnswerSet extends Model
     {
 
         //get valid answer
-        return ( \App\QuestionValidAnswerSet::getValidAnswerSetByQuestionId($question_id)  == $answer) ? TRUE : FALSE ;
+        return ( QuestionValidAnswerSet::getValidAnswerSetByQuestionId($question_id)  == $answer) ? TRUE : FALSE ;
 
 
     }
@@ -56,6 +56,7 @@ class UserAnswerSet extends Model
 
     public function scopeUpdateUserAnswerSet($quesry, $data)
     {
+
         DB::table($this->getTable())
             ->where('user_quiz_id', $data['user_quiz_id'])
             ->where('question_id', $data['question_id'] )

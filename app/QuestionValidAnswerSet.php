@@ -20,8 +20,11 @@ class QuestionValidAnswerSet extends Model
         $response =   DB::table($this->getTable())
             ->select('valid_answer')
             ->where('question_id', $question_id )
-            ->get();
-        return  $response->first()->valid_answer;
+            ->get()
+            ->first()
+            ->valid_answer;
+
+        return $response ;
 
 
     }
