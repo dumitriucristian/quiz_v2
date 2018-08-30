@@ -17,6 +17,7 @@ class CreateUserAnswer extends Migration
             $table->increments('id');
             $table->integer('user_quiz_id');
             $table->integer('question_id');
+            $table->integer('answer_id');
             $table->string('user_answer');
             $table->boolean('is_valid');
             $table->timestamps();

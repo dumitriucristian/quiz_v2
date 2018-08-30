@@ -335,6 +335,7 @@ class QuizPageTest extends TestCase
         factory(UserAnswerSet::class,1)->create($data);
 
         $newData = array(
+
             'user_quiz_id'=>1,
             'question_id'=>1,
             'user_answer_set' =>'01'
@@ -351,20 +352,80 @@ class QuizPageTest extends TestCase
 
     }
 
-    public function test_user_save_each_answer()
+    public function test_each_userAnswer_has_answer()
     {
         $answers = array(
             1 => "1",
             2 => "0"
         );
 
-        $answers = factory(\App\UserAnswer::class)->create($answers);
+        foreach($answers as $key => $value){
+            $answer = array(
+                "user_quiz_id" => 1,
+                "question_id" => $key,
+                "answer_id"=>1,
+                "user_answer" => $value,
+                "is_valid" => 1
+            );
 
-        $this->assertEquals(2, \App\UserAnswer::getAllUserAnswers());
+            factory(\App\UserAnswer::class)->create($answer);
+        }
 
-
+       $this->assertEquals(2, \App\UserAnswer::all()->count());
 
     }
 
+
+    public function test_when_user_send_answer_each_answer_is_saved()
+    {
+        $userData =array(
+            "quiz_id" => "1",
+            "nextPage" => "http://homestead.test/quiz/1?page=2",
+            "question_id" => "1",
+                "answer" => array(
+                    1 => "1",
+                    2 => "0"
+                )
+            );
+
+        \App\UserAnswer::saveEachUserAnswer($userData);
+
+        $this->assertEquals(2, \App\UserAnswer::all()->count() );
+
+    }
+
+
+    public function test_user_answer_is_valid()
+    {
+
+        $answer = factory(\App\Answer::class)->create(   array(
+            'question_id' => 1,
+             'correct' => 1
+            )
+        );
+
+        $answerId = 1;
+        $answerValue = 1;
+
+        $this->assertTrue(\App\UserAnswer::isValid($answerId, $answerValue));
+
+    }
+
+    public function test_user_answer_is_not_valid()
+    {
+
+        $answer = factory(\App\Answer::class)->create(   array(
+                'question_id' => 1,
+                'correct' => 0
+            )
+        );
+
+
+        $answerId = 1;
+        $answerValue = 1;
+
+        $this->assertFalse(\App\UserAnswer::isValid($answerId, $answerValue));
+
+    }
 
 }

@@ -8,7 +8,7 @@ use \App\Quiz;
 use \App\Question;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class QuizzesController extends Controller
 {
@@ -28,7 +28,6 @@ class QuizzesController extends Controller
 
     public function addUserAnswer(Request $request)
     {
-        //dd($request);
 
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
@@ -76,11 +75,13 @@ class QuizzesController extends Controller
             //insert
             if(\App\UserAnswerSet::userAnswerSetExist($answerData) == false){
                 \App\UserAnswerSet::saveUserAnswerSet($answerData);
+                \App\UserAnswer::saveEachUserAnswer($request);
             }
 
             //update
             if(\App\UserAnswerSet::userAnswerSetExist($answerData) == true) {
                 \App\UserAnswerSet::updateUserAnswerSet($answerData);
+                \App\UserAnswer::updateEachUserAnswer($request);
             }
 
         };
