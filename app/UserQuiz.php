@@ -32,4 +32,6 @@ class UserQuiz extends Model
     }
 
 
+
+
 }

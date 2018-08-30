@@ -101,12 +101,16 @@ class QuizzesController extends Controller
     {
 
 
+
         $quiz = Quiz::find($request->quiz_id);
         $questions = Question::where( 'quiz_id','=',$request->quiz_id )->paginate( 1 );
-        //dd($questions->currentPage());
+
+
+
         if(!isset($request->page)){
              $currentPage = $this->getCurrentPage();
         }
+
         $currentPage = $this->getCurrentPage( $request->page);
 
           if( !$quiz || empty($quiz)) {

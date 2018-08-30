@@ -12,6 +12,7 @@ class Quiz extends Model
 
     protected $fillable = ['title', 'description'];
 
+
     public function questions()
     {
         return $this->hasMany(Question::class);
@@ -22,6 +23,10 @@ class Quiz extends Model
         return ( (!$data) || ($data->count() == 0) ) ? false : true;
     }
 
+    public function getNrOfQuestionsAttribute()
+    {
+        return $this->questions->count();
+    }
 
 
 
