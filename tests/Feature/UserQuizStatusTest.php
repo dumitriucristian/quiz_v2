@@ -16,7 +16,22 @@ class UserQuizStatusTest extends TestCase
     // he can continue from last question
 
 
-    //given user who had answered before
-    //when is entering into the quiz
-    //it is redirected to the summary page
+    //given user id and quiz id who had answered before
+    //when user click on the quiz
+    //check if user_id and quiz id exist into user_quizzes table and completed at is null
+    public function test_user_quiz_exist(){
+
+        $user_id=1;
+        $quiz_id=1;
+
+        factory(\App\UserQuiz::class)->create(array('quiz_id'=>1, 'user_id' => 1));
+
+        $this->assertCount(1, \App\UserQuiz::all());
+        $incomplete =  ( new \App\UserQuiz)->quizIsIncomplete($user_id, $quiz_id);
+
+        $this->assertTrue($incomplete);
+    }
+    
+    //$quiz_Id = 1;
+
 }

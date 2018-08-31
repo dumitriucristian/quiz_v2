@@ -31,6 +31,17 @@ class UserQuiz extends Model
 
     }
 
+    public function quizIsIncomplete($user_id, $quiz_id)
+    {
+            $nrOfIncompleteQuizzes = DB::table($this->getTable())
+                ->where('quiz_id' , '=', $quiz_id)
+                ->where('user_id','=', $user_id)
+                ->where('completed_at', '=' ,NULL)
+                ->count();
+
+            return ($nrOfIncompleteQuizzes > 0) ? true : false ;
+    }
+
 
 
 
