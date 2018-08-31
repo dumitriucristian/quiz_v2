@@ -33,8 +33,6 @@ class Question extends Model
                 ->where('id', '>', $lastQuestionAnsweredId)
                 ->get()
                 ->first()->id;
-
-
     }
 
 
