@@ -28,7 +28,10 @@ class Quiz extends Model
         return $this->questions->count();
     }
 
-
+    public function quizProgress($nrOfQuestions, $nrOfAnswers)
+    {
+        return  (int) $nrOfAnswers * 100 / $nrOfQuestions ;
+    }
 
 
 }

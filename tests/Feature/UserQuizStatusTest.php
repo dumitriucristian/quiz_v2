@@ -111,19 +111,36 @@ class UserQuizStatusTest extends TestCase
 
     }
 
-/*
-    public function test_total_question_answered()
-    {
 
+    public function test_nr_of_question_answered()
+    {
+        $userQuizId =  ( new \App\UserQuiz )->getIncompleteUserQuizId($this->user_id, $this->quiz_id);
+
+        $this->assertEquals(2, (new \App\UserAnswerSet)->nrOfQuestionAnswered($userQuizId));
     }
 
-*/
+    public function test_nr_of_question_by_quiz_id()
+    {
+
+        $this->assertEquals(5, (new \App\Question)->nrOfQuestionByQuizId($this->quiz_id));
+    }
+
+
+    public function test_user_quiz_progress()
+    {
+
+        $totalNrOfQuestions = 5;
+        $nrOfQuestionsAnswered = 2;
+        $this->assertEquals(40, (new \App\Quiz)->quizProgress($totalNrOfQuestions, $nrOfQuestionsAnswered ) );
+
+
+    }
 
 
     //getLastQuestionAnswered
     //getNextQuestion
-    //totalNrOfQuestionAnsweredByQuizId
-    //totalNrOfQuestionsByQuizId
+    //totalNrOfQuestionAnswered
+    //totalNrOfQuestions
     //userQuizProgress
 
 

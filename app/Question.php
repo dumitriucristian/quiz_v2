@@ -35,6 +35,13 @@ class Question extends Model
                 ->first()->id;
     }
 
+    public function nrOfQuestionByQuizId($quiz_Id)
+    {
+        return DB::table($this->getTable())
+            ->where('quiz_id', '=', $quiz_Id)
+            ->count();
+    }
+
 
 
 

@@ -100,18 +100,20 @@ class QuizzesController extends Controller
     public function quizDetails(Request $request)
     {
 
-        //if user has previously answered to this quiz and has not completed the quiz
-
-            //redirect user to the resume page
-                // where he can choose to
-                    //reset the quiz or
-                    // he can continue from last question
-
-
-
-
        // find user_quiz_id to count how many questions user answered
         $quiz = Quiz::find($request->quiz_id);
+
+
+        //check if quiz is finished
+
+        $quizIsIncomplete = (new \App\UserQuiz)->quizIsIncomplete( Auth::user()->id, $request->quiz_id );
+
+        if ( $quizIsIncomplete ) {
+
+            dd('page incomplete');
+
+          return view('page.quizSummary');
+        }
 
 
         $questions = Question::where( 'quiz_id','=',$request->quiz_id )->paginate( 1 );

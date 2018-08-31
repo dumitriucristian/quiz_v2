@@ -89,4 +89,15 @@ class UserAnswerSet extends Model
             ->last()
             ->question_id;
     }
+
+
+    public function nrOfQuestionAnswered($userQuizId)
+    {
+        return DB::table($this->getTable())
+            ->where('user_quiz_id','=', $userQuizId)
+            ->count();
+    }
+
+
+
 }
