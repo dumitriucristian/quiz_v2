@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use \App\Quiz;
 use \App\Question;
+use \App\UserQuiz;
+use \App\UserAnswerSet;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 
 class QuizzesController extends Controller
 {
@@ -53,10 +56,11 @@ class QuizzesController extends Controller
             'question_id'=>$question_id
         );
 
-        if(\App\UserQuiz::findUserQuiz($userQuizData) == 0){
+        if(
+            UserQuiz::findUserQuiz($userQuizData) == 0){
 
 
-            $userQuiz = new \App\UserQuiz;
+            $userQuiz = new UserQuiz;
 
             $userQuiz->quiz_id = $quiz_id;
             $userQuiz->user_id = Auth::User()->id;
@@ -68,19 +72,20 @@ class QuizzesController extends Controller
 
             $answerData = array(
                 "question_id" => $question_id,
-                "user_quiz_id" =>  \App\UserQuiz::findUserQuiz($userQuizData),
-                "user_answer_set" => \App\UserAnswerSet::setUserAnswer($answers)
+                "user_quiz_id" =>
+                UserQuiz::findUserQuiz($userQuizData),
+                "user_answer_set" => UserAnswerSet::setUserAnswer($answers)
             );
 
             //insert
-            if(\App\UserAnswerSet::userAnswerSetExist($answerData) == false){
-                \App\UserAnswerSet::saveUserAnswerSet($answerData);
+            if(UserAnswerSet::userAnswerSetExist($answerData) == false){
+                UserAnswerSet::saveUserAnswerSet($answerData);
                 \App\UserAnswer::saveEachUserAnswer($request);
             }
 
             //update
-            if(\App\UserAnswerSet::userAnswerSetExist($answerData) == true) {
-                \App\UserAnswerSet::updateUserAnswerSet($answerData);
+            if(UserAnswerSet::userAnswerSetExist($answerData) == true) {
+                UserAnswerSet::updateUserAnswerSet($answerData);
                 \App\UserAnswer::updateEachUserAnswer($request);
             }
 
@@ -103,25 +108,27 @@ class QuizzesController extends Controller
        // find user_quiz_id to count how many questions user answered
         $quiz = Quiz::find($request->quiz_id);
 
+        $userQuiz = new  UserQuiz;
+        $answerSet = new UserAnswerSet;
 
         //check if quiz is finished
 
-        $quizIsIncomplete = (new \App\UserQuiz)->quizIsIncomplete( Auth::user()->id, $request->quiz_id );
+        $quizIsIncomplete = $userQuiz->quizIsIncomplete( Auth::user()->id, $request->quiz_id );
 
         if ( $quizIsIncomplete ) {
 
-           $userQuizId =  (new \App\UserQuiz)->getIncompleteUserQuizId(Auth::user()->id, $request->quiz_id);
-           $lastQuestionAnswered = (new \App\UserAnswerSet)->lastQuestionAnsweredId($userQuizId);
-           $nrOfAnswers = (new \App\UserAnswerSet)->nrOfQuestionAnswered($userQuizId);
-           $nrOfQuestions = (new \App\Question)->nrOfQuestionByQuizId($request->quiz_id);
-           $userProgress = (new \App\Quiz)->quizProgress($nrOfQuestions, $nrOfAnswers );
+           $userQuizId =  $userQuiz->getIncompleteUserQuizId(Auth::user()->id, $request->quiz_id);
+           $lastQuestionAnswered = $answerSet->lastQuestionAnsweredId($userQuizId);
+           $nrOfAnswers = $answerSet->nrOfQuestionAnswered($userQuizId);
+           $nrOfQuestions = (new Question)->nrOfQuestionByQuizId($request->quiz_id);
+           $userProgress = (new Quiz)->quizProgress($nrOfQuestions, $nrOfAnswers );
 
            $data = array(
               "quiz_id" => $request->quiz_id,
               "user_id" =>Auth::user()->id,
               "user_quiz_id" => $userQuizId,
               "lastQuestionAnswered" =>$lastQuestionAnswered,
-              "nextQuestion" => (new \App\Question)->nextQuestionId($lastQuestionAnswered, $request->quiz_id),
+              "nextQuestion" => (new Question)->nextQuestionId($lastQuestionAnswered, $request->quiz_id),
               "nrOfAnswers" => $nrOfAnswers,
               'totalNrOfQuestions'=> $nrOfQuestions,
               'userProgress' => $userProgress
