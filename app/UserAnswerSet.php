@@ -79,4 +79,14 @@ class UserAnswerSet extends Model
             ->get()->first()->user_answer_set;
 
     }
+
+
+    public function lastQuestionAnsweredId($userQuizId){
+        return DB::table($this->getTable())
+            ->select('question_id')
+            ->where('user_quiz_id','=', $userQuizId)
+            ->get()
+            ->last()
+            ->question_id;
+    }
 }

@@ -43,6 +43,20 @@ class UserQuiz extends Model
     }
 
 
+    public function getIncompleteUserQuizId($user_id, $quiz_id)
+    {
+       return DB::table($this->getTable())
+            ->select('id')
+            ->where('quiz_id' , '=', $quiz_id)
+            ->where('user_id','=', $user_id)
+            ->where('completed_at', '=' ,NULL)
+            ->get()->last()->id;
+
+    }
+
+
+
+
 
 
 }

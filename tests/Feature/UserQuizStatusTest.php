@@ -31,7 +31,73 @@ class UserQuizStatusTest extends TestCase
 
         $this->assertTrue($incomplete);
     }
-    
+
+    public function test_get_incomplete_user_quiz_id()
+    {
+        $user_id=1;
+        $quiz_id=1;
+        factory(\App\UserQuiz::class)->create(array('quiz_id'=>1, 'user_id' => 1));
+        factory(\App\UserQuiz::class)->create(array('quiz_id'=>2, 'user_id' => 1));
+
+        $userQuizId =  ( new \App\UserQuiz)->getIncompleteUserQuizId($user_id, $quiz_id);
+
+        $this->assertEquals(1, $userQuizId);
+
+    }
+
+    public function test_get_last_question_answered_from_incomplete_quiz()
+    {
+        $user_id = 1;
+        $quiz_id = 1;
+
+        factory(\App\UserQuiz::class)->create(array('quiz_id'=>1, 'user_id' => 1));
+        $userQuizId =  ( new \App\UserQuiz )->getIncompleteUserQuizId($user_id, $quiz_id);
+
+        factory(\App\UserAnswerSet::class )->create(
+
+                array(
+                'user_quiz_id' => 2,
+                'question_id' => 1,
+                'user_answer_set' =>'10',
+                'is_valid' => 1
+                )
+        );
+
+        factory(\App\UserAnswerSet::class )->create(
+                array(
+                    'user_quiz_id' => 1,
+                    'question_id' => 1,
+                    'user_answer_set' =>'10',
+                    'is_valid' => 1
+                 )
+        );
+
+        factory(\App\UserAnswerSet::class )->create(
+                array(
+                    'user_quiz_id' => 1,
+                    'question_id' => 2,
+                    'user_answer_set' =>'010',
+                    'is_valid' => 0
+                )
+
+        );
+
+
+        $lastQuestionAnsweredId = (new \App\UserAnswerSet)->lastQuestionAnsweredId($userQuizId);
+
+        $this->assertEquals(2, $lastQuestionAnsweredId);
+
+    }
+
+    //redirect
+
+    //getLastQuestionAnswered
+    //getNextQuestion
+    //totalNrOfQuestionAnswered
+    //totalNrOfQuestions
+    //userQuizProgress
+
+
     //$quiz_Id = 1;
 
 }
