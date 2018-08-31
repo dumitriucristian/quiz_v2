@@ -56,10 +56,10 @@ class UserQuizStatusTest extends TestCase
         factory(\App\UserAnswerSet::class )->create(
 
                 array(
-                'user_quiz_id' => 2,
-                'question_id' => 1,
-                'user_answer_set' =>'10',
-                'is_valid' => 1
+                    'user_quiz_id' => 2,
+                    'question_id' => 1,
+                    'user_answer_set' =>'10',
+                    'is_valid' => 1
                 )
         );
 
@@ -69,7 +69,7 @@ class UserQuizStatusTest extends TestCase
                     'question_id' => 1,
                     'user_answer_set' =>'10',
                     'is_valid' => 1
-                 )
+                )
         );
 
         factory(\App\UserAnswerSet::class )->create(
@@ -89,8 +89,54 @@ class UserQuizStatusTest extends TestCase
 
     }
 
-    //redirect
+    public function test_get_next_question()
+    {
 
+        $user_id = 1;
+        $quiz_id = 1;
+
+        factory(\App\UserQuiz::class)->create(array('quiz_id'=>1, 'user_id' => 1));
+        $userQuizId =  ( new \App\UserQuiz )->getIncompleteUserQuizId($user_id, $quiz_id);
+
+        factory(\App\UserAnswerSet::class )->create(
+
+            array(
+                'user_quiz_id' => 2,
+                'question_id' => 1,
+                'user_answer_set' =>'10',
+                'is_valid' => 1
+            )
+        );
+
+        factory(\App\UserAnswerSet::class )->create(
+            array(
+                'user_quiz_id' => 1,
+                'question_id' => 1,
+                'user_answer_set' =>'10',
+                'is_valid' => 1
+            )
+        );
+
+        factory(\App\UserAnswerSet::class )->create(
+            array(
+                'user_quiz_id' => 1,
+                'question_id' => 2,
+                'user_answer_set' =>'010',
+                'is_valid' => 0
+            )
+
+        );
+
+        factory(\App\Question::class, 5)->create(array('quiz_id'=>1));
+
+        $this->assertEquals(5, \App\Question::all()->count());
+
+        $lastQuestionAnsweredId = (new \App\UserAnswerSet)->lastQuestionAnsweredId($userQuizId);
+        $nextQuestionId =  (new \App\Question)->nextQuestionId($lastQuestionAnsweredId, $quiz_id);
+        $this->assertEquals( 3 , $nextQuestionId);
+
+
+    }
     //getLastQuestionAnswered
     //getNextQuestion
     //totalNrOfQuestionAnswered

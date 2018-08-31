@@ -4,6 +4,7 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Question extends Model
 {
@@ -24,6 +25,17 @@ class Question extends Model
         return $this->hasOne(QuestionValidAnswerSet::class);
     }
 
+    public function nextQuestionId($lastQuestionAnsweredId, $quiz_id)
+    {
+       return DB::table( $this->getTable() )
+                ->select('id')
+                ->where('quiz_id', '=' , $quiz_id)
+                ->where('id', '>', $lastQuestionAnsweredId)
+                ->get()
+                ->first()->id;
+
+
+    }
 
 
 
