@@ -110,7 +110,34 @@ class QuizzesController extends Controller
 
         if ( $quizIsIncomplete ) {
 
-            dd('page incomplete');
+           $userQuizId =  (new \App\UserQuiz)->getIncompleteUserQuizId(Auth::user()->id, $request->quiz_id);
+           $lastQuestionAnswered = (new \App\UserAnswerSet)->lastQuestionAnsweredId($userQuizId);
+           $nrOfAnswers = (new \App\UserAnswerSet)->nrOfQuestionAnswered($userQuizId);
+           $nrOfQuestions = (new \App\Question)->nrOfQuestionByQuizId($request->quiz_id);
+           $userProgress = (new \App\Quiz)->quizProgress($nrOfQuestions, $nrOfAnswers );
+
+           $data = array(
+              "quiz_id" => $request->quiz_id,
+              "user_id" =>Auth::user()->id,
+              "user_quiz_id" => $userQuizId,
+              "lastQuestionAnswered" =>$lastQuestionAnswered,
+              "nextQuestion" => (new \App\Question)->nextQuestionId($lastQuestionAnswered, $request->quiz_id),
+              "nrOfAnswers" => $nrOfAnswers,
+              'totalNrOfQuestions'=> $nrOfQuestions,
+              'userProgress' => $userProgress
+          );
+
+
+            //getLastQuestionAnswered
+            //getNextQuestion
+            //totalNrOfQuestionAnswered
+            //totalNrOfQuestions
+            //userQuizProgress
+
+
+
+
+          dd($data);
 
           return view('page.quizSummary');
         }
