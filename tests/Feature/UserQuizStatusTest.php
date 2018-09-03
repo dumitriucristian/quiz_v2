@@ -136,14 +136,4 @@ class UserQuizStatusTest extends TestCase
 
     }
 
-
-    //getLastQuestionAnswered
-    //getNextQuestion
-    //totalNrOfQuestionAnswered
-    //totalNrOfQuestions
-    //userQuizProgress
-
-
-    //$quiz_Id = 1;
-
 }

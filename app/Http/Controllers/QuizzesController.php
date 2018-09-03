@@ -1,16 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use Exception;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use \App\Quiz;
 use \App\Question;
 use \App\UserQuiz;
 use \App\UserAnswerSet;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 
 class QuizzesController extends Controller
@@ -123,7 +122,7 @@ class QuizzesController extends Controller
            $nrOfQuestions = (new Question)->nrOfQuestionByQuizId($request->quiz_id);
            $userProgress = (new Quiz)->quizProgress($nrOfQuestions, $nrOfAnswers );
 
-           $data = array(
+           $quizInfo = array(
               "quiz_id" => $request->quiz_id,
               "user_id" =>Auth::user()->id,
               "user_quiz_id" => $userQuizId,
@@ -135,18 +134,8 @@ class QuizzesController extends Controller
           );
 
 
-            //getLastQuestionAnswered
-            //getNextQuestion
-            //totalNrOfQuestionAnswered
-            //totalNrOfQuestions
-            //userQuizProgress
 
-
-
-
-          dd($data);
-
-          return view('page.quizSummary');
+          return view('pages.quizSummary', array("quizInfo"=>$quizInfo));
         }
 
 
