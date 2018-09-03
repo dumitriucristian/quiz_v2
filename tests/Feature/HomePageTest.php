@@ -46,7 +46,7 @@ class HomePageTest extends TestCase
      */
     public function homeroute_no_quizzes_on_database()
     {
-        if(Quiz::all()->count()==0){
+        if( Quiz::all()->count() ==0){
             $this->get('/')->assertSee('You can add a new quiz');
         }
 

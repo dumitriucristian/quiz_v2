@@ -136,4 +136,12 @@ class UserQuizStatusTest extends TestCase
 
     }
 
+    public function user_can_reset_quiz()
+    {
+        $response = $this->call('get','/resetQuiz/1');
+        $response->assertStatus(200);
+
+
+    }
+
 }

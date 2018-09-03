@@ -8,8 +8,9 @@ use \App\Quiz;
 use \App\Question;
 use \App\UserQuiz;
 use \App\UserAnswerSet;
+use \App\UserAnswer;
 use Illuminate\Support\Facades\Auth;
-
+use Symfony\Component\Routing\Route;
 
 
 class QuizzesController extends Controller
@@ -17,14 +18,28 @@ class QuizzesController extends Controller
     public function homePage()
     {
 
-            $quizzes = Quiz::all();
+        $quizzes= Quiz::all();
 
-            if( !$quizzes || $quizzes->count() == 0) {
+        if( $this->ifQuizExists($quizzes) === false){
 
-                return view('pages.home')->withErrors( ["errors"=>["Are no Quizzess in this moment"]]);
-            }
+            return view('pages.home')->withErrors( ["errors"=>["Are no Quizzess in this moment"]]);
+        };
 
-            return view('pages.home', ["quizzes"=>$quizzes]);
+        $this->setHomePageSession();
+
+        return view('pages.home', ["quizzes"=>$quizzes]);
+    }
+
+
+    protected function ifQuizExists( $quizzes )
+    {
+
+        if( !$quizzes || $quizzes->count() == 0) {
+
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -35,6 +50,7 @@ class QuizzesController extends Controller
         $question_id = $request->question_id;
 
         try{
+
             Quiz::findOrFail($quiz_id);
             Question::findOrFail($question_id);
 
@@ -49,44 +65,19 @@ class QuizzesController extends Controller
             return back()->withErrors(array('errors' =>"Invalid answer. Empty answer"));
         }
 
-        $userQuizData = array(
-            'user_id' => Auth::User()->id,
-            'quiz_id'=>$quiz_id,
-            'question_id'=>$question_id
-        );
 
-        if(
-            UserQuiz::findUserQuiz($userQuizData) == 0){
+        $userQuizData = $this->setUserQuizData($quiz_id, $question_id);
 
 
-            $userQuiz = new UserQuiz;
+        if( UserQuiz::findUserQuiz($userQuizData) == 0){
 
-            $userQuiz->quiz_id = $quiz_id;
-            $userQuiz->user_id = Auth::User()->id;
-            //todo completed at must be recorded when the user hit the submit quiz answers button;
-           // $userQuiz->completed_at = date('Y-m-d H-i-s', time());
+            $this->setNewUserQuiz($quiz_id);
 
-           $userQuiz->save();
-        }else{
+        }
 
-            $answerData = array(
-                "question_id" => $question_id,
-                "user_quiz_id" =>
-                UserQuiz::findUserQuiz($userQuizData),
-                "user_answer_set" => UserAnswerSet::setUserAnswer($answers)
-            );
+        if( UserQuiz::findUserQuiz($userQuizData) > 0){
 
-            //insert
-            if(UserAnswerSet::userAnswerSetExist($answerData) == false){
-                UserAnswerSet::saveUserAnswerSet($answerData);
-                \App\UserAnswer::saveEachUserAnswer($request);
-            }
-
-            //update
-            if(UserAnswerSet::userAnswerSetExist($answerData) == true) {
-                UserAnswerSet::updateUserAnswerSet($answerData);
-                \App\UserAnswer::updateEachUserAnswer($request);
-            }
+            $this->setUserAnswer($userQuizData, $request) ;
 
         };
 
@@ -100,9 +91,73 @@ class QuizzesController extends Controller
         return back();
     }
 
+    protected function setUserAnswer( $userQuizData, $request)
+    {
+        $answerData = array(
+
+                "question_id" => $request->question_id,
+                "user_quiz_id" => UserQuiz::findUserQuiz($userQuizData),
+                "user_answer_set" => UserAnswerSet::setUserAnswer($request->answers)
+            );
+
+
+        if(UserAnswerSet::userAnswerSetExist($answerData) == false){
+           $this->saveUserAnswer($answerData, $request);
+        }
+
+        if(UserAnswerSet::userAnswerSetExist($answerData) == true) {
+            $this->updateUserAnswer($answerData, $request);
+        }
+
+    }
+
+    protected function setNewUserQuiz($quiz_id)
+    {
+        $userQuiz = new UserQuiz;
+        $userQuiz->quiz_id = $quiz_id;
+        $userQuiz->user_id = Auth::User()->id;
+        $userQuiz->save();
+    }
+
+    protected function setHomePageSession()
+    {
+        session()->flash('previous-route','home' );
+
+    }
+
+    private function isPreviousPageHomePage()
+    {
+        return ( session()->has('previous-route') ) ? true : false;
+    }
+
+    private function setUserQuizData($quiz_id, $question_id)
+    {
+        return array(
+            'user_id' => Auth::User()->id,
+            'quiz_id'=>$quiz_id,
+            'question_id'=>$question_id
+        );
+
+    }
+    private function saveUserAnswer($answerData, $request)
+    {
+        UserAnswerSet::saveUserAnswerSet($answerData);
+        UserAnswer::saveEachUserAnswer($request);
+    }
+
+    private function updateUserAnswer($answerData, $request)
+    {
+        UserAnswerSet::updateUserAnswerSet($answerData);
+        UserAnswer::updateEachUserAnswer($request);
+    }
+
+
+
 
     public function quizDetails(Request $request)
     {
+
+
 
        // find user_quiz_id to count how many questions user answered
         $quiz = Quiz::find($request->quiz_id);
@@ -110,11 +165,14 @@ class QuizzesController extends Controller
         $userQuiz = new  UserQuiz;
         $answerSet = new UserAnswerSet;
 
+
+        //quiz/1?page=2
+
         //check if quiz is finished
 
         $quizIsIncomplete = $userQuiz->quizIsIncomplete( Auth::user()->id, $request->quiz_id );
 
-        if ( $quizIsIncomplete ) {
+        /*if ( $quizIsIncomplete && $this->isPreviousPageHomePage() ) {
 
            $userQuizId =  $userQuiz->getIncompleteUserQuizId(Auth::user()->id, $request->quiz_id);
            $lastQuestionAnswered = $answerSet->lastQuestionAnsweredId($userQuizId);
@@ -133,13 +191,11 @@ class QuizzesController extends Controller
               'userProgress' => $userProgress
           );
 
-
-
           return view('pages.quizSummary', array("quizInfo"=>$quizInfo));
-        }
+        }*/
 
 
-        $questions = Question::where( 'quiz_id','=',$request->quiz_id )->paginate( 1 );
+        $questions = Question::where( 'quiz_id', '=', $request->quiz_id )->paginate( 1 );
 
 
         if(!isset($request->page)){
@@ -149,11 +205,12 @@ class QuizzesController extends Controller
         $currentPage = $this->getCurrentPage( $request->page);
 
           if( !$quiz || empty($quiz)) {
-               return view('pages.quizDetails')->withErrors( array("errors" => ["The quiz requested is unavailable"]));
+               return view('pages.quizDetails')->withErrors( array(
+                   "errors" => ["The quiz requested is unavailable"])
+               );
           }
 
-        return view('pages.quizDetails',
-            array(
+        return view('pages.quizDetails',  array(
                 'quiz'=> $quiz,
                 'questions' =>  $questions,
             )
@@ -188,4 +245,18 @@ class QuizzesController extends Controller
     }
 
 
+    public function resetQuiz(Request $request)
+    {
+        //delete all user user_answers where user_quiz_id
+        //delete all user answer_sets where user_quiz_id
+        //redirect to homepage
+        dd($request);
+        return redirect();
+    }
+
+    public function continueQuiz(Request $request)
+    {
+        //redirect to nextquestion
+        return true;
+    }
 }
