@@ -27,12 +27,19 @@ class Question extends Model
 
     public function nextQuestionId($lastQuestionAnsweredId, $quiz_id)
     {
-       return DB::table( $this->getTable() )
+
+      $sql = DB::table( $this->getTable() )
                 ->select('id')
                 ->where('quiz_id', '=' , $quiz_id)
                 ->where('id', '>', $lastQuestionAnsweredId)
-                ->get()
-                ->first()->id;
+                ->get();
+      if($sql->count() > 0) {
+
+          return $sql->first()->id;
+      }
+
+      return false;
+
     }
 
     public function nrOfQuestionByQuizId($quiz_Id)

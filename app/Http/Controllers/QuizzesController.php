@@ -81,11 +81,17 @@ class QuizzesController extends Controller
 
         };
 
-
         if($request->nextPage != null){
 
             return redirect( $request->nextPage );
         }
+
+        if($request->nextPage == null)
+        {
+            dd('last page');
+            //send to results page
+        }
+
 
 
         return back();

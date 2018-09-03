@@ -58,47 +58,36 @@ class UserQuizStatusTest extends TestCase
         );
 
         factory(\App\UserQuiz::class)->create(array('quiz_id'=>1, 'user_id' => 1));
-
         factory(\App\Question::class, 5)->create(array('quiz_id'=>1));
 
     }
 
     public function test_user_quiz_exist(){
 
-
-
         $this->assertCount(1, \App\UserQuiz::all());
         $incomplete =  ( new \App\UserQuiz)->quizIsIncomplete($this->user_id, $this->quiz_id);
-
         $this->assertTrue($incomplete);
     }
 
     public function test_get_incomplete_user_quiz_id()
     {
-
         factory(\App\UserQuiz::class)->create(array('quiz_id'=>2, 'user_id' => 1));
-
         $userQuizId =  ( new \App\UserQuiz)->getIncompleteUserQuizId($this->user_id, $this->quiz_id);
-
         $this->assertEquals(1, $userQuizId);
-
     }
 
     public function test_get_last_question_answered_from_incomplete_quiz()
     {
-
         factory(\App\UserQuiz::class)->create(array('quiz_id'=>1, 'user_id' => 1));
         $userQuizId =  ( new \App\UserQuiz )->getIncompleteUserQuizId($this->user_id, $this->quiz_id);
 
         $lastQuestionAnsweredId = (new \App\UserAnswerSet)->lastQuestionAnsweredId($userQuizId);
 
         $this->assertEquals(1, $lastQuestionAnsweredId);
-
     }
 
     public function test_get_next_question()
     {
-
 
         $userQuizId =  ( new \App\UserQuiz )->getIncompleteUserQuizId($this->user_id, $this->quiz_id);
 
@@ -107,8 +96,6 @@ class UserQuizStatusTest extends TestCase
         $lastQuestionAnsweredId = (new \App\UserAnswerSet)->lastQuestionAnsweredId($userQuizId);
         $nextQuestionId =  (new \App\Question)->nextQuestionId($lastQuestionAnsweredId, $this->quiz_id);
         $this->assertEquals( 3 , $nextQuestionId);
-
-
     }
 
 
@@ -132,9 +119,8 @@ class UserQuizStatusTest extends TestCase
         $totalNrOfQuestions = 5;
         $nrOfQuestionsAnswered = 2;
         $this->assertEquals(40, (new \App\Quiz)->quizProgress($totalNrOfQuestions, $nrOfQuestionsAnswered ) );
-
-
     }
+
 
     public function user_can_reset_quiz()
     {
