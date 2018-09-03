@@ -60,7 +60,7 @@ class QuizzesController extends Controller
         }
 
         $answers = $request->answer;
-
+       ;
         if(in_array(1,$answers) === false ){
             return back()->withErrors(array('errors' =>"Invalid answer. Empty answer"));
         }
@@ -70,7 +70,7 @@ class QuizzesController extends Controller
 
 
         if( UserQuiz::findUserQuiz($userQuizData) == 0){
-
+        ;
             $this->setNewUserQuiz($quiz_id);
 
         }
@@ -93,19 +93,21 @@ class QuizzesController extends Controller
 
     protected function setUserAnswer( $userQuizData, $request)
     {
-        $answerData = array(
 
+        $answerData = array(
                 "question_id" => $request->question_id,
                 "user_quiz_id" => UserQuiz::findUserQuiz($userQuizData),
-                "user_answer_set" => UserAnswerSet::setUserAnswer($request->answers)
+                "user_answer_set" => UserAnswerSet::setUserAnswer($request->answer)
             );
 
 
         if(UserAnswerSet::userAnswerSetExist($answerData) == false){
+
            $this->saveUserAnswer($answerData, $request);
         }
 
         if(UserAnswerSet::userAnswerSetExist($answerData) == true) {
+
             $this->updateUserAnswer($answerData, $request);
         }
 
@@ -163,58 +165,56 @@ class QuizzesController extends Controller
         $quiz = Quiz::find($request->quiz_id);
 
         $userQuiz = new  UserQuiz;
-        $answerSet = new UserAnswerSet;
-
-
-        //quiz/1?page=2
 
         //check if quiz is finished
-
         $quizIsIncomplete = $userQuiz->quizIsIncomplete( Auth::user()->id, $request->quiz_id );
 
-        /*if ( $quizIsIncomplete && $this->isPreviousPageHomePage() ) {
+        if ( $quizIsIncomplete && $this->isPreviousPageHomePage() ) {
 
-           $userQuizId =  $userQuiz->getIncompleteUserQuizId(Auth::user()->id, $request->quiz_id);
-           $lastQuestionAnswered = $answerSet->lastQuestionAnsweredId($userQuizId);
-           $nrOfAnswers = $answerSet->nrOfQuestionAnswered($userQuizId);
-           $nrOfQuestions = (new Question)->nrOfQuestionByQuizId($request->quiz_id);
-           $userProgress = (new Quiz)->quizProgress($nrOfQuestions, $nrOfAnswers );
+          return view('pages.quizSummary', array('quizInfo' =>  $this->getQuizInfo($userQuiz, $request)));
 
-           $quizInfo = array(
-              "quiz_id" => $request->quiz_id,
-              "user_id" =>Auth::user()->id,
-              "user_quiz_id" => $userQuizId,
-              "lastQuestionAnswered" =>$lastQuestionAnswered,
-              "nextQuestion" => (new Question)->nextQuestionId($lastQuestionAnswered, $request->quiz_id),
-              "nrOfAnswers" => $nrOfAnswers,
-              'totalNrOfQuestions'=> $nrOfQuestions,
-              'userProgress' => $userProgress
-          );
-
-          return view('pages.quizSummary', array("quizInfo"=>$quizInfo));
-        }*/
-
+        }
 
         $questions = Question::where( 'quiz_id', '=', $request->quiz_id )->paginate( 1 );
 
 
-        if(!isset($request->page)){
-             $currentPage = $this->getCurrentPage();
+        if( !$quiz || empty($quiz)){
+           return view('pages.quizDetails')->withErrors( array(
+               "errors" => ["The quiz requested is unavailable"])
+           );
         }
-
-        $currentPage = $this->getCurrentPage( $request->page);
-
-          if( !$quiz || empty($quiz)) {
-               return view('pages.quizDetails')->withErrors( array(
-                   "errors" => ["The quiz requested is unavailable"])
-               );
-          }
 
         return view('pages.quizDetails',  array(
                 'quiz'=> $quiz,
                 'questions' =>  $questions,
+                'quizInfo' =>  $this->getQuizInfo($userQuiz, $request)
             )
         );
+    }
+
+
+    protected function getQuizInfo($userQuiz, $request)
+    {
+
+        $answerSet = new UserAnswerSet;
+
+        $userQuizId =  $userQuiz->getIncompleteUserQuizId(Auth::user()->id, $request->quiz_id);
+        $lastQuestionAnswered = $answerSet->lastQuestionAnsweredId($userQuizId);
+        $nrOfAnswers = $answerSet->nrOfQuestionAnswered($userQuizId);
+        $nrOfQuestions = (new Question)->nrOfQuestionByQuizId($request->quiz_id);
+        $userProgress = (new Quiz)->quizProgress($nrOfQuestions, $nrOfAnswers );
+
+       return  array(
+            "quiz_id" => $request->quiz_id,
+            "user_id" =>Auth::user()->id,
+            "user_quiz_id" => $userQuizId,
+            "lastQuestionAnswered" =>$lastQuestionAnswered,
+            "nextQuestion" => (new Question)->nextQuestionId($lastQuestionAnswered, $request->quiz_id),
+            "nrOfAnswers" => $nrOfAnswers,
+            'totalNrOfQuestions'=> $nrOfQuestions,
+            'userProgress' => $userProgress
+        );
+
     }
 
     public function getCurrentPage($page = null)

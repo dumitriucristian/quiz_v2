@@ -6,9 +6,17 @@
         @include('includes.error');
     @endif
          <div class="container">
+             <div class="row justify-content-center mb-2">
+                 <div class="col-md-8">
+                     <div class="card">
+                         <div class="card-body">
+                         @include('includes.progressBar')
+                         </div>
+                     </div>
+                 </div>
+             </div>
             <div class="row justify-content-center">
                 <div class="col-md-8">
-
                     <div class="card">
                         <form method="POST" action="/addUserAnswer">
                             {{csrf_field()}}
