@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class UserQuizStatusTest extends TestCase
+class UserQuizResultsTest extends TestCase
 {
     //if user has previously answered to this quiz and has not completed the quiz
 
@@ -79,6 +79,7 @@ class UserQuizStatusTest extends TestCase
 
     }
 
+
     public function count_maxim_nr_of_quiz_points()
     {
 
@@ -104,9 +105,13 @@ class UserQuizStatusTest extends TestCase
 
     }
 
-    public function list_all_question_status()
+    public function test_is_last_question()
     {
-
+        $quiz_id = 1;
+        $question_id = 5;
+        $this->assertTrue( (new \App\Question)->isLastQuestion($quiz_id, $question_id ) );
     }
+
+
 
 }

@@ -14,9 +14,12 @@
 
 Auth::routes();
 
+Route::get('/quiz/lastQuestion/{user_quiz_id}', 'QuizzesController@lastQuestion')->name('lastQuestion');
+
 Route::get('/',                 'QuizzesController@homePage');
 Route::get('/home',             'QuizzesController@homePage');
 Route::get('/quiz/{quiz_id}',   'QuizzesController@quizDetails');
+
 
 Route::get('/admin/{questionId}/addAnswer', 'AdminController@addAnswer');
 Route::get('/admin/addQuiz',                'AdminController@addQuiz');

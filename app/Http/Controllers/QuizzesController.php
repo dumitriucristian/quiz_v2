@@ -60,7 +60,7 @@ class QuizzesController extends Controller
         }
 
         $answers = $request->answer;
-       ;
+
         if(in_array(1,$answers) === false ){
             return back()->withErrors(array('errors' =>"Invalid answer. Empty answer"));
         }
@@ -70,7 +70,7 @@ class QuizzesController extends Controller
 
 
         if( UserQuiz::findUserQuiz($userQuizData) == 0){
-        ;
+
             $this->setNewUserQuiz($quiz_id);
 
         }
@@ -81,14 +81,22 @@ class QuizzesController extends Controller
 
         };
 
+
+        //check if lastQuestion
+
+
+
         if($request->nextPage != null){
+            $isLastQuestion = (new Question)->isLastQuestion($quiz_id, $question_id);
 
             return redirect( $request->nextPage );
         }
 
+
         if($request->nextPage == null)
         {
-            dd('last page');
+
+
             //send to results page
         }
 
@@ -164,8 +172,6 @@ class QuizzesController extends Controller
 
     public function quizDetails(Request $request)
     {
-
-
 
        // find user_quiz_id to count how many questions user answered
         $quiz = Quiz::find($request->quiz_id);
@@ -264,5 +270,10 @@ class QuizzesController extends Controller
     {
         //redirect to nextquestion
         return true;
+    }
+
+    public function lastQuestion(){
+        dd('done');
+        return;
     }
 }

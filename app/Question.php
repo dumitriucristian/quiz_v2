@@ -50,6 +50,18 @@ class Question extends Model
     }
 
 
+    public function isLastQuestion($quiz_id, $question_id)
+    {
+        $nrOfQuestions =  DB::table($this->getTable())
+                ->where('quiz_id', '=', $quiz_id)
+                ->where('id', '>' , $question_id)
+                ->count();
+
+
+
+        return ($nrOfQuestions == 0) ? true  : false ;
+    }
+
 
 
 }
