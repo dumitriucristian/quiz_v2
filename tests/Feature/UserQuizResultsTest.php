@@ -78,6 +78,16 @@ class UserQuizResultsTest extends TestCase
 
 
     }
+    public function test_user_end_quiz_completing_date_is_registered()
+    {
+        $user_quiz_id = 1;
+        (new \App\UserQuiz)->quizIsComplete( $user_quiz_id );
+        $isCompleted = \App\UserQuiz::where('completed_at', '<>', null)->count();
+        $this->assertEquals(1, $isCompleted);
+
+    }
+
+
 
 
     public function count_maxim_nr_of_quiz_points()

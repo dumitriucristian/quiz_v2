@@ -33,6 +33,7 @@ class Question extends Model
                 ->where('quiz_id', '=' , $quiz_id)
                 ->where('id', '>', $lastQuestionAnsweredId)
                 ->get();
+
       if($sql->count() > 0) {
 
           return $sql->first()->id;

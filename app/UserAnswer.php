@@ -29,7 +29,7 @@ class UserAnswer extends Model
         foreach($answers as $key => $value ){
 
             $userAnswer = new UserAnswer;
-            $userAnswer->user_quiz_id = $userData['quiz_id'];
+            $userAnswer->user_quiz_id = $userData['user_quiz_id'];
             $userAnswer->question_id = $userData['question_id'];
             $userAnswer->answer_id = $key;
             $userAnswer->user_answer = $value;
@@ -48,8 +48,8 @@ class UserAnswer extends Model
         foreach($answers as $key => $value ){
 
             DB::table($this->getTable())
-            ->where('user_quiz_id', $userData['quiz_id'] )
-            ->where('question_id', $userData['quiz_id'])
+            ->where('user_quiz_id', $userData['user_quiz_id'] )
+            ->where('question_id', $userData['question_id'])
             ->where('answer_id', $key)
             ->update( array(
                  'user_answer' => $value,

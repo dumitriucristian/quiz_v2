@@ -82,6 +82,7 @@ class UserAnswerSet extends Model
 
 
     public function lastQuestionAnsweredId($userQuizId){
+
         return DB::table($this->getTable())
             ->select('question_id')
             ->where('user_quiz_id','=', $userQuizId)

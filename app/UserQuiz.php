@@ -26,16 +26,26 @@ class UserQuiz extends Model
 
         return  $query->where('quiz_id' , '=',$data['quiz_id'])
                 ->where('user_id','=', $data['user_id'])
-                ->where('completed_at', '=' ,NULL)
-                ->count();
+                ->where('completed_at', '=', NULL)
+                ->get()
+                ->last()->id;
 
     }
 
-    public function quizIsIncomplete($user_id, $quiz_id)
+    public function scopeCheckUserQuizExist($query, $data){
+
+
+        return  $query->where('quiz_id' , '=',$data['quiz_id'])
+            ->where('user_id','=', $data['user_id'])
+            ->where('completed_at', '=', NULL)
+            ->count();
+
+    }
+
+    public function quizIsIncomplete($user_quiz_id)
     {
             $nrOfIncompleteQuizzes = DB::table($this->getTable())
-                ->where('quiz_id' , '=', $quiz_id)
-                ->where('user_id','=', $user_id)
+                ->where('id','=', $user_quiz_id)
                 ->where('completed_at', '=' ,NULL)
                 ->count();
 
@@ -51,6 +61,14 @@ class UserQuiz extends Model
             ->where('user_id','=', $user_id)
             ->where('completed_at', '=' ,NULL)
             ->get()->last()->id;
+
+    }
+
+    public function quizIsComplete($user_quiz_id)
+    {
+       $userQuiz = UserQuiz::find($user_quiz_id);
+       $userQuiz->completed_at = now();
+       $userQuiz->save();
 
     }
 
