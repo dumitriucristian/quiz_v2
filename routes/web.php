@@ -14,7 +14,7 @@
 
 Auth::routes();
 
-Route::get('/quiz/lastQuestion/{user_quiz_id}', 'QuizzesController@lastQuestion')->name('lastQuestion');
+Route::get('/lastQuestion/{user_quiz_id}', 'QuizzesController@lastQuestion');
 
 Route::get('/',                 'QuizzesController@homePage');
 Route::get('/home',             'QuizzesController@homePage');

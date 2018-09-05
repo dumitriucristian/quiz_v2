@@ -25,7 +25,7 @@
                             </div>
                             <div class="row">
                                <div class="col-md-6 col-sm-12 p-2 text-center text-md-right">
-                                   <a href="{{route('lastQuestion')}}" class="btn btn-sm btn-primary">Continue Quiz</a>
+                                   <a href="{{URL::to('/')}}/lastQuestion/{{$quizInfo['user_quiz_id']}}" class="btn btn-sm btn-primary">Continue Quiz</a>
                                </div>
                                 <div class="col-md-6 col-sm-12 p-2 text-center text-md-left">
                                     <a href="/resetQuiz/{{$quizInfo['user_quiz_id']}}" class="btn btn-sm btn-primary">Reset Quiz</a>

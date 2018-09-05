@@ -57,20 +57,6 @@ class QuizPageTest extends TestCase
        $this->assertCount(3, $questions);
     }
 
-    public function user_saves_answer()
-    {
-        //given a user send an answer
-
-        //and the answer has a valid user_id, a question_id and a valid quiz_id
-        //then we create a formated user_answer_set
-        //then formated answer is saved into the formated_user_answer table
-        //and each answer is saved into the user_answer table
-        //if is not the last question user is sent to the next question
-        //if is the last question user in sent to the result page
-        //where the user can see the assessment page
-
-
-    }
 
 
     public function test_if_quiz_id_is_invalid_user_is_redirected_with_errors(){
@@ -197,16 +183,9 @@ class QuizPageTest extends TestCase
         );
 
         $user_quiz = UserQuiz::findUserQuiz($data);
-
         $this->assertEquals(1, $user_quiz);
-
         $this->call('POST','/addUserAnswer', $data)->assertStatus(302);
 
-        //if the current question is last
-        //redirect to quiz review page
-
-
-        //if the current question is not last redirect to next question
     }
 
 
@@ -214,20 +193,16 @@ class QuizPageTest extends TestCase
     public function test_answer_set_is_made_when_user_submit_answer()
     {
         $input = array(
-
               0=>0,
               1=>1
-
         );
 
         $output = '01';
         $response = \App\UserAnswerSet::setUserAnswer($input);
         $this->assertEquals($response, $output);
-
-
     }
 
-   //todo - user add answer_set
+
     public function test_user_can_save_answer_set()
     {
 
@@ -255,34 +230,12 @@ class QuizPageTest extends TestCase
 
     }
 
-    /** todo - user can update answer */
-    public function user_can_update_answer()
-    {
-        $nextPage = "quiz/1?page=2";
-
-        $answer = array(
-            "nextPage" =>  $nextPage,
-            "user_id" => 1,
-            "question_id" => 1,
-            "quiz_id" => 1,
-            "answer" => [1,0]
-        );
-
-        factory(UserQuiz::class, 1)->create($answer);
-
-        //if answer exist
-        //update answer
-
-
-    }
-
     public function test_AnswerSet_save_answer_set(){
 
         $validAnswer = array(
             'id'=>1,
             'question_id'=>1,
             'valid_answer' =>'10'
-            //'answers' =>array('1'=>'1', '2'=>'0')
         );
 
         factory(\App\QuestionValidAnswerSet::class,1)->create($validAnswer);
@@ -414,12 +367,10 @@ class QuizPageTest extends TestCase
     public function test_user_answer_is_not_valid()
     {
 
-        $answer = factory(\App\Answer::class)->create(   array(
+        $answer = factory(\App\Answer::class)->create( array(
                 'question_id' => 1,
                 'correct' => 0
-            )
-        );
-
+            ));
 
         $answerId = 1;
         $answerValue = 1;
@@ -427,5 +378,7 @@ class QuizPageTest extends TestCase
         $this->assertFalse(\App\UserAnswer::isValid($answerId, $answerValue));
 
     }
+
+
 
 }

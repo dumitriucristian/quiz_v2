@@ -128,13 +128,7 @@ class UserQuizStatusTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_user_reached_last_question()
-    {
-        $response = $this->call('get', 'lastQuestion');
 
-        $response->assertStatus(200);
-
-    }
 
 
 

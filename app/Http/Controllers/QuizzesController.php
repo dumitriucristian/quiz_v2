@@ -272,8 +272,27 @@ class QuizzesController extends Controller
         return true;
     }
 
-    public function lastQuestion(){
-        dd('done');
-        return;
+    public function lastQuestion($userQuizId){
+
+        UserQuiz::findOrFail($userQuizId);
+
+        //if there are unanswered question redirect to first question without answer
+
+        //if there are no unanswered question redirect to result page
+
+
+    }
+
+
+    public function resultPage($userQuizId)
+    {
+
+        //totalNrOfQuestions
+        //totalNrOfAnswer
+        //totalNrOfCorrectAnswer
+        //totalNrOfWrongAnswer
+        //totalNrOfPoints
+        //totalNrOfPointsObtaine
+
     }
 }
