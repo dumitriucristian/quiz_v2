@@ -124,6 +124,21 @@ class UserQuizResultsTest extends TestCase
         $this->assertTrue( (new \App\Question)->isLastQuestion($quiz_id, $question_id ) );
     }
 
+    public function test_user_get_quiz_results()
+    {
+
+        $user_quiz_id = 1;
+        $results = (New \App\Result)->setQuizResult($user_quiz_id);
+
+        $this->assertArrayHasKey('user_quiz_id',  $results);
+        $this->assertArrayHasKey('user_id',  $results);
+        $this->assertArrayHasKey('quiz_id',  $results);
+        $this->assertArrayHasKey('nr_of_questions_answered',  $results);
+        $this->assertArrayHasKey('nr_of_correct_answers',  $results);
+        $this->assertArrayHasKey('nr_of_incorrect_answers',  $results);
+
+    }
+
 
 
 }

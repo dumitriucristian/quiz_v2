@@ -319,7 +319,7 @@ class QuizzesController extends Controller
 
     public function resultPage($userQuizId)
     {
-        dd("result page");
+        dd($userQuizId);
         //totalNrOfQuestions
         //totalNrOfAnswer
         //totalNrOfCorrectAnswer

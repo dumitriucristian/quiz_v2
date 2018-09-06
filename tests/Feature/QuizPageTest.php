@@ -40,15 +40,6 @@ class QuizPageTest extends TestCase
 
     }
 
-    public function test_quiz_page_with_invalid_id_throw_error()
-    {
-
-        $response = static::$quiz->find(2);
-        $this->assertNull( $response );
-        $response  = $this->get('quiz/2')->assertSee('The quiz requested is unavailable');
-
-    }
-
     public function test_quiz_has_next_question()
     {
 
@@ -157,19 +148,6 @@ class QuizPageTest extends TestCase
         $this->assertEquals(1, $user_quiz);
 
     }
-
-
-    public function test_user_has_no_records_in_user_quiz_table()
-    {
-          $data = array(
-              'user_id'=>1,
-              'quiz_id'=>1
-          );
-
-          $user_quiz = UserQuiz::findUserQuiz($data);
-          $this->assertEquals(0, $user_quiz);
-    }
-
 
     public function test_user_should_be_redirected_to_next_question()
     {
@@ -334,6 +312,7 @@ class QuizPageTest extends TestCase
         $userData =array(
             "quiz_id" => "1",
             "nextPage" => "http://homestead.test/quiz/1?page=2",
+            "user_quiz_id"=>1,
             "question_id" => "1",
                 "answer" => array(
                     1 => "1",

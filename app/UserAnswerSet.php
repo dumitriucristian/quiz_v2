@@ -54,7 +54,7 @@ class UserAnswerSet extends Model
 
     }
 
-    public function scopeUpdateUserAnswerSet($quesry, $data)
+    public function scopeUpdateUserAnswerSet($query, $data)
     {
 
         DB::table($this->getTable())
@@ -96,6 +96,22 @@ class UserAnswerSet extends Model
     {
         return DB::table($this->getTable())
             ->where('user_quiz_id','=', $userQuizId)
+            ->count();
+    }
+
+    public function scopeNrOfCorrectQuestionsAnswered($query, $userQuizId)
+    {
+        return DB::table($this->getTable())
+            ->where('user_quiz_id','=', $userQuizId)
+            ->where('is_valid','=', 1)
+            ->count();
+    }
+
+    public function scopeNrOfIncorrectQuestionsAnswered($query, $userQuizId)
+    {
+        return DB::table($this->getTable())
+            ->where('user_quiz_id','=', $userQuizId)
+            ->where('is_valid','=', 0)
             ->count();
     }
 
