@@ -153,14 +153,15 @@ class QuizzesController extends Controller
 
         $quiz = $this->checkQuizExist($request->quiz_id);
 
-        $userData = array("user_id" => Auth::user()->id, "quiz_id" => $request->quiz_id);
+        $userData = $this->setUserData($request->quiz_id);
 
         if( UserQuiz::checkUserQuizExist($userData) == 0){
-            $userData = array("user_id" => Auth::user()->id, "quiz_id" => $request->quiz_id);
+
             $userQuizId =  UserQuiz::init($userData);
         }
 
         $userQuizId = UserQuiz::findUserQuiz($userData);
+
         $nrOfUserAnswers = (new UserAnswerSet)->nrOfQuestionAnswered($userQuizId);
 
         if($nrOfUserAnswers == 0){
@@ -195,12 +196,18 @@ class QuizzesController extends Controller
 
 
         return view('pages.quizDetails',  array(
-                'quiz'=> $quiz,
-                'questions' =>  $questions,
-                'quizInfo' => $quizInfo
-            )
-        );
+                        'quiz'=> $quiz,
+                        'questions' =>  $questions,
+                        'quizInfo' => $quizInfo
+                    ));
     }
+
+
+    protected function setUserData( $quizId){
+
+        return  array("user_id" => Auth::user()->id, "quiz_id" => $quizId);
+    }
+
 
     protected function checkUserQuizIdIsValid($userQuizId)
     {
@@ -287,13 +294,15 @@ class QuizzesController extends Controller
     }
 
 
-    public function resetQuiz(Request $request)
+    public function resetQuiz(Request $request, $userQuizId)
     {
-        //delete all user user_answers where user_quiz_id
-        //delete all user answer_sets where user_quiz_id
-        //redirect to homepage
 
-        return redirect();
+       UserQuiz::destroy($userQuizId);
+       UserAnswerSet::where('user_quiz_id',$userQuizId)->delete();
+       UserAnswer::where('user_quiz_id', $userQuizId)->delete();
+
+
+        return redirect('/');
     }
 
     public function continueQuiz(Request $request)
