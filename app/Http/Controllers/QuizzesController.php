@@ -77,10 +77,11 @@ class QuizzesController extends Controller
 
         if($request->nextPage == null)
         {
-            //send to results page
+            (new UserQuiz)->quizIsComplete($user_quiz_id);
+
         }
 
-        return back();
+         return redirect('resultPage/'.$request->user_quiz_id);
 
     }
 
@@ -93,8 +94,6 @@ class QuizzesController extends Controller
                 "user_answer_set" => UserAnswerSet::setUserAnswer($request->answer)
             );
 
-
-
         if(UserAnswerSet::userAnswerSetExist($answerData) == false){
 
            $this->saveUserAnswer($answerData, $request);
@@ -104,7 +103,6 @@ class QuizzesController extends Controller
 
             $this->updateUserAnswer($answerData, $request);
         }
-
     }
 
     protected function setNewUserQuiz($quiz_id)
@@ -150,8 +148,6 @@ class QuizzesController extends Controller
     }
 
 
-
-
     public function quizDetails(Request $request)
     {
 
@@ -180,9 +176,12 @@ class QuizzesController extends Controller
         }
 
         //check if quiz is finished
-        $quizIsIncomplete = (new UserQuiz)->quizIsIncomplete(  $request->user_quiz_id );
+        $quizIsIncomplete = (new UserQuiz)->quizIsIncomplete(  $userQuizId );
+
 
         if ( $quizIsIncomplete && $this->isPreviousPageHomePage() ) {
+
+            $request->uq = $userQuizId;
 
           return view('pages.quizSummary', array('quizInfo' =>  $this->getQuizInfo($request)));
 
@@ -192,9 +191,8 @@ class QuizzesController extends Controller
 
 
         $this->checkUserQuizIdIsValid($request->uq);
-
-
         $quizInfo  = $this->getQuizInfo( $request);
+
 
         return view('pages.quizDetails',  array(
                 'quiz'=> $quiz,
@@ -309,10 +307,7 @@ class QuizzesController extends Controller
         UserQuiz::findOrFail($userQuizId);
 
         //if there are unanswered question redirect to first question without answer
-
         //if there are no unanswered question redirect to result page
-
-
     }
 
 
