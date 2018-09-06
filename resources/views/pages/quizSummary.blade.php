@@ -43,10 +43,10 @@
                                     </div>
                                 @else
                                    <div class="col-md-6 col-sm-12 p-2 text-center text-md-right">
-                                       <a href="{{URL::to('/')}}/lastQuestion/{{$quizInfo['user_quiz_id']}}" class="btn btn-sm btn-primary">Continue Quiz</a>
+                                       <a href="{{URL::to('/')}}/quiz/{{$quizInfo['quiz_id']}}?page={{$quizInfo['nextQuestion']}}&uq={{$quizInfo['user_quiz_id']}}" class="btn btn-sm btn-primary">Continue Quiz</a>
                                    </div>
                                     <div class="col-md-6 col-sm-12 p-2 text-center text-md-left">
-                                        <a href="/resetQuiz/{{$quizInfo['user_quiz_id']}}" class="btn btn-sm btn-primary">Reset Quiz</a>
+                                        <a href="/resetQuiz/{{$quizInfo['quiz_id']}}/{{$quizInfo['user_quiz_id']}}" class="btn btn-sm btn-primary">Reset Quiz</a>
                                    </div>
                                @endif
                             </div>

@@ -35,7 +35,7 @@ Route::get('/admin/{quizId}/removeQuiz',    'AdminController@removeQuiz');
 Route::post('/admin/updateAnswer',          'AdminController@updateAnswer');
 Route::get('/admin/{quizId}/{questionId}/removeQuestion','AdminController@removeQuestion');
 
-Route::get('resetQuiz/{user_quiz_id}', 'QuizzesController@resetQuiz');
+Route::get('resetQuiz/{quiz_id}/{user_quiz_id}', 'QuizzesController@resetQuiz');
 Route::get('continueQuiz/{user_quiz_id}', 'QuizzesController@continueQuiz');
 Route::get('resultPage/{user_quiz_id}','ResultsController@addResult');
 

@@ -179,7 +179,6 @@ class QuizzesController extends Controller
         //check if quiz is finished
         $quizIsIncomplete = (new UserQuiz)->quizIsIncomplete(  $userQuizId );
 
-
         if ( $quizIsIncomplete && $this->isPreviousPageHomePage() ) {
 
             $request->uq = $userQuizId;
@@ -190,10 +189,8 @@ class QuizzesController extends Controller
 
         $questions = Question::where( 'quiz_id', '=', $request->quiz_id )->paginate( 1 );
 
-
         $this->checkUserQuizIdIsValid($request->uq);
         $quizInfo  = $this->getQuizInfo( $request);
-
 
         return view('pages.quizDetails',  array(
                         'quiz'=> $quiz,
@@ -294,7 +291,7 @@ class QuizzesController extends Controller
     }
 
 
-    public function resetQuiz(Request $request, $userQuizId)
+    public function resetQuiz($quizId, $userQuizId)
     {
 
        UserQuiz::destroy($userQuizId);
@@ -302,7 +299,7 @@ class QuizzesController extends Controller
        UserAnswer::where('user_quiz_id', $userQuizId)->delete();
 
 
-        return redirect('/');
+        return redirect('/quiz/'.$quizId);
     }
 
     public function continueQuiz(Request $request)
@@ -322,7 +319,7 @@ class QuizzesController extends Controller
 
     public function resultPage($userQuizId)
     {
-
+        dd("result page");
         //totalNrOfQuestions
         //totalNrOfAnswer
         //totalNrOfCorrectAnswer
