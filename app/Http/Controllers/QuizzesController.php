@@ -49,6 +49,7 @@ class QuizzesController extends Controller
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
         $user_quiz_id = $request->user_quiz_id;
+
         try{
 
            UserQuiz::findOrFail($user_quiz_id);
@@ -68,13 +69,10 @@ class QuizzesController extends Controller
 
         $this->setUserAnswer($userQuizData, $request) ;
 
-
-
         if($request->nextPage != null){
             $isLastQuestion = (new Question)->isLastQuestion($quiz_id, $question_id);
 
-            dd($request);
-            return redirect( $request->nextPage )->with(array("teste"=>"ceva"));
+            return redirect( $request->nextPage.'&uq='.$request->user_quiz_id  );
         }
 
         if($request->nextPage == null)
@@ -167,25 +165,19 @@ class QuizzesController extends Controller
         }
 
         $userQuizId = UserQuiz::findUserQuiz($userData);
-
-
         $nrOfUserAnswers = (new UserAnswerSet)->nrOfQuestionAnswered($userQuizId);
 
         if($nrOfUserAnswers == 0){
-
-
             $questions = Question::where( 'quiz_id', '=', $request->quiz_id )->paginate( 1 );
 
             return view('pages.quizDetails',  array(
-                    'user_quiz_id'=>$userQuizId,
+
                     'quiz'=> $quiz,
                     'questions' =>  $questions,
                     'quizInfo' =>  $this->getQuizInfoDefault( $request, $userQuizId )
                 )
             );
         }
-
-
 
         //check if quiz is finished
         $quizIsIncomplete = (new UserQuiz)->quizIsIncomplete(  $request->user_quiz_id );
@@ -197,23 +189,32 @@ class QuizzesController extends Controller
         }
 
         $questions = Question::where( 'quiz_id', '=', $request->quiz_id )->paginate( 1 );
+
+
+        $this->checkUserQuizIdIsValid($request->uq);
+
+
         $quizInfo  = $this->getQuizInfo( $request);
 
         return view('pages.quizDetails',  array(
                 'quiz'=> $quiz,
                 'questions' =>  $questions,
-                //'quizInfo' =>  $this->getQuizInfo( $request)
+                'quizInfo' => $quizInfo
             )
         );
     }
 
+    protected function checkUserQuizIdIsValid($userQuizId)
+    {
+        return ( UserQuiz::findOrFail($userQuizId)->where('user_id','=', Auth::user()->id)->count() > 0) ? true :false ;
+    }
 
     protected function getQuizInfo( $request)
     {
 
         $answerSet = new UserAnswerSet;
 
-        $userQuizId =  $request->user_quiz_id;
+        $userQuizId =  $request->uq;
 
         $lastQuestionAnswered = $answerSet->lastQuestionAnsweredId($userQuizId);
         $nrOfAnswers = $answerSet->nrOfQuestionAnswered($userQuizId);
@@ -223,24 +224,19 @@ class QuizzesController extends Controller
         return  array(
             "quiz_id" => $request->quiz_id,
             "user_id" => Auth::user()->id,
-            "user_quiz_id" => $request->user_quiz_id,
+            "user_quiz_id" => $request->uq,
             "lastQuestionAnswered" =>$lastQuestionAnswered,
             "nextQuestion" => (new Question)->nextQuestionId($lastQuestionAnswered, $request->quiz_id),
             "nrOfAnswers" => $nrOfAnswers,
             'totalNrOfQuestions'=> $nrOfQuestions,
             'userProgress' => $userProgress
         );
+
     }
 
     protected function checkQuizExist($quiz_id)
     {
-        $quiz = Quiz::find($quiz_id);
-        if( !$quiz || empty($quiz)){
-            return view('pages.quizDetails')->withErrors( array(
-                    "errors" => ["The quiz requested is unavailable"])
-            );
-        }
-        return $quiz;
+        return Quiz::findOrFail($quiz_id);
     }
 
     protected function getQuizInfoDefault( $request, $userQuizId)
@@ -251,6 +247,7 @@ class QuizzesController extends Controller
         $userProgress = (new Quiz)->quizProgress($nrOfQuestions, $nrOfAnswers );
 
         return  array(
+            'user_quiz_id'=>$userQuizId,
             "quiz_id" => $request->quiz_id,
             "user_id" => Auth::user()->id,
             "user_quiz_id" => $userQuizId,

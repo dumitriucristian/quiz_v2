@@ -30,7 +30,8 @@ class Quiz extends Model
 
     public function quizProgress($nrOfQuestions, $nrOfAnswers)
     {
-        return  (int) $nrOfAnswers * 100 / $nrOfQuestions ;
+
+        return  ($nrOfAnswers == 0) ?  0 : (int) $nrOfAnswers * 100 / $nrOfQuestions ;
     }
 
 

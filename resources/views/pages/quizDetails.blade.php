@@ -20,7 +20,7 @@
                     <div class="card">
                         <form method="POST" action="/addUserAnswer">
                             {{csrf_field()}}
-                        <input type="hidden" name="user_quiz_id" value="{{$user_quiz_id}}" />
+                        <input type="hidden" name="user_quiz_id" value="{{$quizInfo['user_quiz_id']}}" />
                         <input type="hidden" name="quiz_id" value="{{$quiz->id}}" />
                         <input type="hidden" name="nextPage" value="{{$questions->nextPageUrl()}}" />
                         @foreach($questions as $question)
