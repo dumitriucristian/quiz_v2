@@ -22,9 +22,6 @@
                     <div class="card">
                     @foreach( $quizzes as $quiz)
                         <div class="card-header">
-                            <div  class="d-flex justify-content-end">
-                                <div><strong class="d-flex justify-content-end">Status: In Progress</strong> </div>
-                            </div>
                             <div  class="d-flex justify-content-start">
                                <div>
                                    <a href="/quiz/{{$quiz->id}}">
@@ -32,7 +29,7 @@
                                    </a>
                                </div>
                                 <div>
-                                    -  {{$quiz->questions->count()}}
+                                    -  {{$quiz->questions->count()}} questions
                                 </div>
                             </div>
 

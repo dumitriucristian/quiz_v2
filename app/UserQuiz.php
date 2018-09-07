@@ -63,7 +63,6 @@ class UserQuiz extends Model
             ->where('user_id','=', $user_id)
             ->where('completed_at', '=' ,NULL)
             ->get()->last()->id;
-
     }
 
     public function quizIsComplete($user_quiz_id)
@@ -73,10 +72,5 @@ class UserQuiz extends Model
        $userQuiz->save();
 
     }
-
-
-
-
-
 
 }
