@@ -139,6 +139,24 @@ class UserQuizResultsTest extends TestCase
 
     }
 
+    public function test_user_save_quiz_result()
+    {
+
+          $quizResult =  array(
+            'user_quiz_id' => 1,
+            'user_id' => 1,
+            'quiz_id' => 1,
+            'nr_of_questions' => 2,
+            'nr_of_questions_answered' => 2,
+            'nr_of_correct_answers' => 2,
+            'nr_of_incorrect_answers' => 0
+            );
+
+          \App\Result::saveResult( $quizResult);
+
+          $this->assertEquals(1, \App\Result::all()->count());
+    }
+
 
 
 }
