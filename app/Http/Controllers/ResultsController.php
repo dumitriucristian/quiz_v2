@@ -18,12 +18,15 @@ class ResultsController extends Controller
                        ->get()
                        ->first();
 
+
         if($result == null){
             return 'ssss';
         }
 
         return view( 'pages.quizResult' , array("result"=>$result ) );
     }
+
+
 
     public function addResult($userQuizId)
     {

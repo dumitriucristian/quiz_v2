@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\DB;
 class Quiz extends Model
 {
 
-
-
     protected $fillable = ['title', 'description'];
 
 

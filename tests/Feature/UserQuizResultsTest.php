@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use App\Result;
 class UserQuizResultsTest extends TestCase
 {
     //if user has previously answered to this quiz and has not completed the quiz
@@ -149,12 +149,21 @@ class UserQuizResultsTest extends TestCase
             'nr_of_questions' => 2,
             'nr_of_questions_answered' => 2,
             'nr_of_correct_answers' => 2,
-            'nr_of_incorrect_answers' => 0
+            'nr_of_incorrect_answers' => 0,
+             'successRatio' => \App\Result::successRatio(2,2)
             );
 
           \App\Result::saveResult( $quizResult);
 
           $this->assertEquals(1, \App\Result::all()->count());
+    }
+
+    public function test_success_ratio()
+    {
+        $nrOfQuestions = 4;
+        $nrOfCorrectAnswers = 2;
+
+        $this->assertEquals(50, Result::successRatio($nrOfQuestions, $nrOfCorrectAnswers));
     }
 
 

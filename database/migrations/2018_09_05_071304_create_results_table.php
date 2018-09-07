@@ -22,6 +22,7 @@ class CreateResultsTable extends Migration
             $table->integer('nr_of_questions_answered');
             $table->integer('nr_of_correct_answers');
             $table->integer('nr_of_incorrect_answers');
+            $table->integer('successRatio');
             $table->timestamps();
         });
     }
