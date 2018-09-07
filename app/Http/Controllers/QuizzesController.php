@@ -81,7 +81,7 @@ class QuizzesController extends Controller
 
         }
 
-         return redirect('resultPage/'.$request->user_quiz_id);
+         return redirect('addResult/'.$request->user_quiz_id);
 
     }
 

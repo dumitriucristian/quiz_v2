@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\DB;
 class Result extends Model
 {
 
-    protected $quarded= ['id'];
+    protected $fillable = array(
+        'user_quiz_id',
+        'user_id',
+        'quiz_id',
+        'nr_of_questions',
+        'nr_of_questions_answered',
+        'nr_of_correct_answers',
+        'nr_of_incorrect_answers'
+    ) ;
 
-    public function setQuizResult( $user_quiz_id)
+    public function scopeSetQuizResult($query, $user_quiz_id)
     {
 
-        $quiz_id = UserQuiz::find($user_quiz_id)->pluck('quiz_id');
+        $quiz_id = UserQuiz::find($user_quiz_id)->quiz_id;
 
         return array(
             'user_quiz_id' => $user_quiz_id,

@@ -32,6 +32,8 @@ class UserQuiz extends Model
 
     }
 
+
+
     public function scopeCheckUserQuizExist($query, $data){
 
 
