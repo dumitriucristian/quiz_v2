@@ -265,21 +265,6 @@ class QuizzesController extends Controller
            "userProgress"   => $userProgress,
            "nrOfQuestions" => $nrOfQuestions,
         );
-        //
-       // dd($nrOfAnswers);
-
-/*
-        return  array(
-            "quiz_id" => $request->quiz_id,
-            "user_id" => Auth::user()->id,
-            "user_quiz_id" => $request->uq,
-            "lastQuestionAnswered" =>$lastQuestionAnswered,
-            "nextQuestion" => $this->question->nextQuestionId($lastQuestionAnswered, $request->quiz_id),
-            "nrOfAnswers" => $nrOfAnswers,
-            'totalNrOfQuestions'=> $nrOfQuestions,
-            'userProgress' => $userProgress
-        );*/
-
 
     }
 
