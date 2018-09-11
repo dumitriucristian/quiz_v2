@@ -58,12 +58,12 @@ class UserQuizStatusTest extends TestCase
         );
 
         factory(\App\UserQuiz::class)->create(array('quiz_id'=>1, 'user_id' => 1));
-        factory(\App\Question::class, 5)->create(array('quiz_id'=>1));
+        factory(\App\Question::class, 5);
 
     }
 
     public function test_user_quiz_exist(){
-
+        dd(\App\Question::all());
         $this->assertCount(1, \App\UserQuiz::all());
         $incomplete =  ( new \App\UserQuiz)->quizIsIncomplete($this->user_id, $this->quiz_id);
         $this->assertTrue($incomplete);

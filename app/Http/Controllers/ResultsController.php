@@ -40,7 +40,7 @@ class ResultsController extends Controller
         (new UserQuiz)->quizIsComplete($userQuizId);
          $quizResult = \App\Result::setQuizResult( $userQuizId);
          $result = Result::create($quizResult);
-
+       // dd($result);
         return redirect('result/'.$userQuizId);
     }
 

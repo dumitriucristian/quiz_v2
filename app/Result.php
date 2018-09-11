@@ -24,8 +24,10 @@ class Result extends Model
     {
 
         $quiz_id = UserQuiz::find($user_quiz_id)->quiz_id;
+
         $nrOfCorrectAnswers = UserAnswerSet::nrOfCorrectQuestionsAnswered($user_quiz_id);
-        $nrOfQuestions  = (new \App\Question)->nrOfQuestionByQuizId( $quiz_id );
+
+        $nrOfQuestions  = \App\Quiz::find( $quiz_id )->questions()->count();
 
         return array(
             'user_quiz_id' => $user_quiz_id,

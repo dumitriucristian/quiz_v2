@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class Question extends Model
 {
-    protected $fillable = ['quiz_id', 'body'];
+    protected $fillable = ['body'];
 
     public function quiz()
     {
-        return $this->belongsTo(Quiz::class);
+        return $this->belongsToMany('App\Question', 'question_quizzes', 'question_id', 'quiz_id');
     }
 
-    public function answer()
+    public function Answer()
     {
-        return $this->hasMany( Answer::class);
+        return $this->hasMany( 'App\Answer');
     }
 
     public function valid_answer_set(){
@@ -30,7 +30,6 @@ class Question extends Model
 
       $sql = DB::table( $this->getTable() )
                 ->select('id')
-                ->where('quiz_id', '=' , $quiz_id)
                 ->where('id', '>', $lastQuestionAnsweredId)
                 ->get();
 
@@ -42,27 +41,4 @@ class Question extends Model
       return false;
 
     }
-
-    public function nrOfQuestionByQuizId($quiz_Id)
-    {
-        return DB::table($this->getTable())
-            ->where('quiz_id', '=', $quiz_Id)
-            ->count();
-    }
-
-
-    public function isLastQuestion($quiz_id, $question_id)
-    {
-        $nrOfQuestions =  DB::table($this->getTable())
-                ->where('quiz_id', '=', $quiz_id)
-                ->where('id', '>' , $question_id)
-                ->count();
-
-
-
-        return ($nrOfQuestions == 0) ? true  : false ;
-    }
-
-
-
-}
+ }

@@ -30,13 +30,9 @@ class QuizPageTest extends TestCase
     {
         parent::setUp();
 
-            static::$quiz = factory(Quiz::class, 1)
-                ->create()
-                ->each(function(Quiz $quiz){
-                    factory(\App\Question::class, 3)
-                        ->create(['quiz_id'=> $quiz->id]);
-                }
-            );
+            static::$quiz = factory(Quiz::class, 1)->create()->each(function ($quiz){
+                $quiz->questions->save(factory(App\Question::class)->create(3));
+            });
 
     }
 

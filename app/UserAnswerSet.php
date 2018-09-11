@@ -81,7 +81,7 @@ class UserAnswerSet extends Model
     }
 
 
-    public function lastQuestionAnsweredId($userQuizId){
+    public function lastQuestionAnswered($userQuizId){
 
         return DB::table($this->getTable())
             ->select('question_id')

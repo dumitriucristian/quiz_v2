@@ -5,8 +5,8 @@ Auth::routes();
 
 Route::get('/lastQuestion/{user_quiz_id}', 'QuizzesController@lastQuestion');
 
-Route::get('/',                 'QuizzesController@homePage');
-Route::get('/home',             'QuizzesController@homePage');
+Route::get('/', 'QuizzesController@homePage');
+Route::get('/home','QuizzesController@homePage');
 Route::get('/quiz/{quiz_id}/{user_quiz_id?}',   'QuizzesController@quizDetails');
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Quiz;
@@ -60,9 +61,12 @@ class QuizzesController extends Controller
     public function addUserAnswer(Request $request)
     {
 
+
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
         $user_quiz_id = $request->user_quiz_id;
+
+
 
         try{
 
@@ -84,16 +88,18 @@ class QuizzesController extends Controller
         $this->setUserAnswer($userQuizData, $request) ;
 
         if($request->nextPage != null){
-            $isLastQuestion = $this->question->isLastQuestion($quiz_id, $question_id);
+
 
             return redirect( $request->nextPage.'&uq='.$request->user_quiz_id  );
         }
+
 
         if($request->nextPage == null)
         {
             $this->userQuiz->quizIsComplete($user_quiz_id);
 
         }
+
 
          return redirect('addResult/'.$request->user_quiz_id);
 
@@ -172,19 +178,30 @@ class QuizzesController extends Controller
         if( UserQuiz::checkUserQuizExist($userData) == 0){
 
             $userQuizId =  UserQuiz::init($userData);
+
         }
 
         $userQuizId = UserQuiz::findUserQuiz($userData);
 
         $nrOfUserAnswers = $this->userAnswerSet->nrOfQuestionAnswered($userQuizId);
 
+        $nrOfQuestions  = \App\QuestionQuiz::where( 'quiz_id', '=', $request->quiz_id )->count();
+
+        if($nrOfQuestions == 0){
+
+            return view('pages.noQuestions');
+        }
+
         if($nrOfUserAnswers == 0){
-            $questions = Question::where( 'quiz_id', '=', $request->quiz_id )->paginate( 1 );
+
+            $questions = Quiz::find($request->quiz_id )->questions()->paginate( 1 );
+
 
             return view('pages.quizDetails',  array(
 
                     'quiz'=> $quiz,
                     'questions' =>  $questions,
+                    'userQuizId' => $userQuizId,
                     'quizInfo' =>  $this->getQuizInfoDefault( $request, $userQuizId )
                 )
             );
@@ -197,18 +214,21 @@ class QuizzesController extends Controller
 
             $request->uq = $userQuizId;
 
-          return view('pages.quizSummary', array('quizInfo' =>  $this->getQuizInfo($request)));
+          return view('pages.quizSummary', array('quizInfo' =>  array()));
 
         }
 
-        $questions = Question::where( 'quiz_id', '=', $request->quiz_id )->paginate( 1 );
 
-        $this->checkUserQuizIdIsValid($request->uq);
-        $quizInfo  = $this->getQuizInfo( $request);
+        $questions = $this->quiz::find( $request->quiz_id )->questions()->paginate( 1 );
+
+       $this->checkUserQuizIdIsValid($userQuizId);
+       $request->uq = $userQuizId;
+       $quizInfo  = $this->getQuizInfo( $request );
 
         return view('pages.quizDetails',  array(
                         'quiz'=> $quiz,
                         'questions' =>  $questions,
+                        'userQuizId'=> $userQuizId,
                         'quizInfo' => $quizInfo
                     ));
     }
@@ -228,15 +248,27 @@ class QuizzesController extends Controller
     protected function getQuizInfo( $request)
     {
 
-
-
-        $userQuizId =  $request->uq;
-
-        $lastQuestionAnswered = $this->userAnswerSet->lastQuestionAnsweredId($userQuizId);
-        $nrOfAnswers = $this->userAnswerSet->nrOfQuestionAnswered($userQuizId);
-        $nrOfQuestions = $this->question->nrOfQuestionByQuizId($request->quiz_id);
+        $nrOfAnswers = $this->userAnswerSet->nrOfQuestionAnswered($request->quiz_id);
+        $nrOfQuestions = $this->quiz->find($request->quiz_id)->questions()->count();
+        $lastQuestionAnswered = (new UserAnswerSet)->lastQuestionAnswered(  $request->uq);
+        $nextQuestion = $this->question->nextQuestionId($lastQuestionAnswered, $request->quiz_id);
         $userProgress = $this->quiz->quizProgress($nrOfQuestions, $nrOfAnswers );
 
+        return array(
+           "quiz_id" => $request->quiz_id,
+           "user_id" => Auth::user()->id,
+           "user_quiz_id" => $request->uq,
+            "lastQuestionAnswered" =>$lastQuestionAnswered,
+            "nextQuestion" => $nextQuestion,
+           "nrOfAnswers" =>  $nrOfAnswers,
+           "totalNrOfQuestions" => $nrOfQuestions,
+           "userProgress"   => $userProgress,
+           "nrOfQuestions" => $nrOfQuestions,
+        );
+        //
+       // dd($nrOfAnswers);
+
+/*
         return  array(
             "quiz_id" => $request->quiz_id,
             "user_id" => Auth::user()->id,
@@ -246,7 +278,8 @@ class QuizzesController extends Controller
             "nrOfAnswers" => $nrOfAnswers,
             'totalNrOfQuestions'=> $nrOfQuestions,
             'userProgress' => $userProgress
-        );
+        );*/
+
 
     }
 
@@ -259,7 +292,8 @@ class QuizzesController extends Controller
     {
 
         $nrOfAnswers = 0;
-        $nrOfQuestions = $this->question->nrOfQuestionByQuizId($request->quiz_id);
+        $nrOfQuestions = $this->quiz->find($request->quiz_id)->count();
+
         $userProgress = $this->quiz->quizProgress($nrOfQuestions, $nrOfAnswers );
 
         return  array(
@@ -268,7 +302,6 @@ class QuizzesController extends Controller
             "user_id" => Auth::user()->id,
             "user_quiz_id" => $userQuizId,
             "lastQuestionAnswered" => 0,
-            "nextQuestion" => $this->question->nextQuestionId(0, $request->quiz_id),
             "nrOfAnswers" => $nrOfAnswers,
             'totalNrOfQuestions'=> $nrOfQuestions,
             'userProgress' => $userProgress

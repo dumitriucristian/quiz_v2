@@ -39,7 +39,7 @@ class AdminController extends Controller
     public function addQuestion( Request $request)
     {
         $quiz = \App\Quiz::find($request->quizId);
-        //dd($request);
+
         if(empty($quiz)){
             return  view('admin.addQuestion')->withErrors(["Sorry. Invalid request made "] );
         }
@@ -50,10 +50,6 @@ class AdminController extends Controller
     public function saveQuestion(Request $request)
     {
 
-       $data = array(
-          "quiz_id" => $request->quizId,
-          "body"    => $request->question
-       ) ;
 
        $quiz     = \App\Quiz::find($request->quizId);
 
@@ -70,7 +66,11 @@ class AdminController extends Controller
           return view('admin.addQuestion', $quiz )->withErrors($validator);
        }
 
-        \App\Question::create($data);
+        $question = \App\Question::create(array("body"=>$request->question));
+        $question_quiz_id = \App\QuestionQuiz::create(array("question_id"=>$question->id, "quiz_id" => $request->quizId))->id;
+        if($question_quiz_id == 0){
+            throw new \Exception("fucked puppup");
+        }
 
         return view('admin.addQuestion',
             array(
@@ -212,7 +212,11 @@ class AdminController extends Controller
 
     public function editQuiz($quizId)
     {
+        //dd($quizId);
         $quiz =  \App\Quiz::find($quizId);
+        $nrOfQuestions = $quiz->questions()->count();
+
+
         return view('admin.addQuestion', array('quiz'=>$quiz));
     }
 

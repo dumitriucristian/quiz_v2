@@ -1,5 +1,6 @@
-<div class="row">
+<<div class="row">
     <div class="col-md-8 col-sm-12 text-sm-left text-center">
+
         {{$quizInfo['nrOfAnswers']}} answers out of {{$quizInfo['totalNrOfQuestions']}} questions                                </div>
     <div class="col-md-4 col-sm-12 text-center text-md-right">
         <span class="float-md-right">{{$quizInfo['userProgress']}}%</span>

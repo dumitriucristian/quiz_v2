@@ -32,7 +32,7 @@
                 <span class="card-header">
                     <div class="row">
                          <div class="col-md-11 ">
-                            <span class="badge badge-pill badge-primary p-2 mr-2"> {{$quiz->questions->count()}} Q</span>
+                            <span class="badge badge-pill badge-primary p-2 mr-2">  </span>
                              {{$quiz->title}}
                          </div>
                          <a href="/admin/{{$quiz->id}}/removeQuiz/" class="btn-primary btn-sm float-right mr-3"><i class="fas fa-trash"></i></a>
