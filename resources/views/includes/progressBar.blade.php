@@ -1,4 +1,4 @@
-<<div class="row">
+<div class="row">
     <div class="col-md-8 col-sm-12 text-sm-left text-center">
 
         {{$quizInfo['nrOfAnswers']}} answers out of {{$quizInfo['totalNrOfQuestions']}} questions                                </div>

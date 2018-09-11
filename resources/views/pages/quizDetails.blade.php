@@ -10,7 +10,7 @@
                  <div class="col-md-8">
                      <div class="card">
                          <div class="card-body">
-                             @include('includes.progressBar');
+                             @include('includes.progressBar')
                          </div>
                      </div>
                  </div>

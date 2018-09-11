@@ -61,12 +61,9 @@ class QuizzesController extends Controller
     public function addUserAnswer(Request $request)
     {
 
-
         $quiz_id = $request->quiz_id;
         $question_id = $request->question_id;
         $user_quiz_id = $request->user_quiz_id;
-
-
 
         try{
 
@@ -214,7 +211,7 @@ class QuizzesController extends Controller
 
             $request->uq = $userQuizId;
 
-          return view('pages.quizSummary', array('quizInfo' =>  array()));
+          return view('pages.quizSummary', array('quizInfo' =>  $this->getQuizInfo($request)));
 
         }
 
