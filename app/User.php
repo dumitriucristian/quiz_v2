@@ -61,4 +61,16 @@ class User extends Authenticatable
         return null !== $this->roles()->where(‘name’, $role)->first();
     }
 
+    public function createAnonimUser()
+    {
+        $anonimUser = new User();
+        $anonimUser->email = bcrypt(now()).'_'.rand(0,1000);
+        $anonimUser->name ="Guest";
+        $anonimUser->password = bcrypt('secret');
+        $anonimUser->save();
+        return $anonimUser->email;
+    }
+
+
+
 }

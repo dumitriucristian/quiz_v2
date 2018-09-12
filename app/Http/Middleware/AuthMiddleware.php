@@ -24,9 +24,10 @@ class AuthMiddleware
             && ( $request->path() != 'login')
             && ( $request->path() != 'register')
             && ( $request->path() != 'guest-login')
+            && ( $request->path() != 'loginAsGuest')
         ){
 
-            return redirect('pages.guestLogin');
+            return redirect('guest-login');
 
         }
 
