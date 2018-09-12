@@ -23,11 +23,13 @@ class AuthMiddleware
             ( Auth::check() == false )
             && ( $request->path() != 'login')
             && ( $request->path() != 'register')
+            && ( $request->path() != 'guest-login')
         ){
 
-            return redirect('/login');
+            return redirect('pages.guestLogin');
 
         }
+
         return $next($request);
     }
 }

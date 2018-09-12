@@ -3,6 +3,7 @@
 
 Auth::routes();
 
+Route::get('/guest-login', 'LoginController@index');
 Route::get('/lastQuestion/{user_quiz_id}', 'QuizzesController@lastQuestion');
 
 Route::get('/', 'QuizzesController@homePage');
