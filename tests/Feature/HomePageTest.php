@@ -21,13 +21,11 @@ class HomePageTest extends TestCase
      * @test
      */
 
+
+
     public function show_list_of_quizzes_on_the_homepage()
     {
-        /*
-            given a list of quizzes exist
-            when  a user visit the homepage
-            then  the user can see a list of quizzess
-      */
+
 
        $quizzes = factory(Quiz::class,5)->create();
         $this->assertInstanceOf(Collection::class, $quizzes);
@@ -41,9 +39,6 @@ class HomePageTest extends TestCase
     }
 
 
-    /**
-     * @test
-     */
     public function homeroute_no_quizzes_on_database()
     {
         if( Quiz::all()->count() ==0){
@@ -51,10 +46,5 @@ class HomePageTest extends TestCase
         }
 
     }
-
-
-
-
-
 
 }

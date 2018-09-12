@@ -30,8 +30,16 @@ class QuizPageTest extends TestCase
     {
         parent::setUp();
 
-            static::$quiz = factory(Quiz::class, 1)->create()->each(function ($quiz){
-                $quiz->questions->save(factory(App\Question::class)->create(3));
+            static::$quiz = factory(Quiz::class, 1)
+                ->create()
+                ->each(function ($quiz){
+                         $quizId = $quiz->id;
+                         factory(\App\Question::class, 3)
+                        ->create()
+                        ->each(function($question) use ($quizId) {
+                         factory(\App\QuestionQuiz::class,1)
+                             ->create(array('question_id'=>$question->id,'quiz_id'=>$quizId ));
+                    });
             });
 
     }
@@ -40,8 +48,9 @@ class QuizPageTest extends TestCase
     {
 
        $quiz = static::$quiz->first();
-       $questions =     $quiz->questions;
-       $this->assertCount(3, $questions);
+       $questions =     $quiz->questions()->count();
+
+       $this->assertEquals(3, $questions);
     }
 
 
@@ -345,8 +354,4 @@ class QuizPageTest extends TestCase
         $this->assertFalse(\App\UserAnswer::isValid($answerId, $answerValue));
 
     }
-
-
-
-
 }
