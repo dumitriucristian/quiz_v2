@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
+
     public function addQuiz()
     {
         return view('admin.addQuiz');
@@ -81,10 +89,7 @@ class AdminController extends Controller
 
     public function removeQuestion($questionId, $quizId)
     {
-        //if that question does not belongs to that $quizId
-        //get back with flash error
-        //if that question belongs to that quiz
-        //remove question
+
         if( empty(\App\Question::find($questionId) )){
             return back()->withErrors(["errors"=>"InvalidRequest"]);
         }
@@ -201,6 +206,7 @@ class AdminController extends Controller
 
     public function quizzes()
     {
+       // dd(Auth::user()->roles()->pluck('name'));
        $quizzes =  \App\Quiz::all();
 
        if( empty($quizzes) ){

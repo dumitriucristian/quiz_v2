@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -29,7 +31,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(\App\Role::class)->withTimestamps();
     }
 
     /**
@@ -68,9 +70,21 @@ class User extends Authenticatable
         $anonimUser->name ="Guest";
         $anonimUser->password = bcrypt('secret');
         $anonimUser->save();
-        return $anonimUser->email;
+        $anonimUser->roles()->attach( Role::where('name','guest')->get()->first()->id ) ;
+
+        return $anonimUser;
     }
 
+    public function isValidGuest($cookie)
+    {
+        return (DB::table($this->getTable())->where('email', $cookie)->count() == 0) ? false : true;
+    }
+
+    public function getUserIdByCookie($cookie)
+    {
+
+        return DB::table($this->getTable())->where('email', $cookie)->first()->id;
+    }
 
 
 }

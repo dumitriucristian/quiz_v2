@@ -3,31 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Cookie;
+use App\User;
 
 class LoginController extends Controller
 {
-    public function index()
+
+    public function login(Request $request)
     {
 
-        return  view('pages.guestLogin');
+
+       if (
+           ($request->cookie('guest') != null)
+           && (new \App\User)->isValidGuest($request->cookie('guest'))
+
+       ){
+           Auth::loginUsingId( (new \App\User)->getUserIdByCookie($request->cookie('guest')));
+           return redirect('/') ;
+       }
+
+      return  view('pages.guestLogin');
     }
 
     public function loginAsGuest(Request $request)
     {
 
 
-        if($request->cookie('quest') == null){
+        if($request->cookie('guest') == null){
             $anonimUser =  (new \App\User)->createAnonimUser();
-            dd($anonimUser);
-            return ;
+            Cookie::queue('guest', $anonimUser->email, 5);
+            Auth::loginUsingID($anonimUser->id,true);
+            Auth::user()->id;
+            return redirect('/') ;
         }
-            //register new guest user
-            //login as guest user
-            //create guest cookie
+
+        return redirect('/') ;
 
     }
 
-    private function isValidCookie($cookie){
-        //check if cookie exist and is a valid cookie
+    public function authAsGuest(){
+
     }
+
+
 }

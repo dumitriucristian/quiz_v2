@@ -28,9 +28,8 @@ class AuthMiddleware
         ){
 
             return redirect('guest-login');
-
         }
 
-        return $next($request);
+         return $next($request);
     }
 }

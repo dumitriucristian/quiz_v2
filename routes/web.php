@@ -3,7 +3,7 @@
 
 Auth::routes();
 
-Route::get('/guest-login', 'LoginController@index');
+Route::get('/guest-login', 'LoginController@login');
 Route::get('/loginAsGuest', 'LoginController@loginAsGuest');
 
 
@@ -15,19 +15,20 @@ Route::get('/home','QuizzesController@homePage');
 Route::get('/quiz/{quiz_id}/{user_quiz_id?}',   'QuizzesController@quizDetails');
 
 
-Route::get('/admin/{questionId}/addAnswer', 'AdminController@addAnswer');
-Route::get('/admin/addQuiz',                'AdminController@addQuiz');
-Route::get('/admin/addQuestion',            'AdminController@addQuestion');
+Route::get('/admin/{questionId}/addAnswer', 'AdminController@addAnswer')->middleware('admin');
+Route::get('/admin/addQuiz',                'AdminController@addQuiz')->middleware('admin');
+Route::get('/admin/addQuestion',            'AdminController@addQuestion')->middleware('admin');
 
-Route::get('/admin/{idQuiz}/editQuiz',      'AdminController@editQuiz');
-Route::post('/admin/saveQuiz',              'AdminController@saveQuiz');
-Route::post('/admin/saveQuestion',          'AdminController@saveQuestion');
-Route::post('/admin/updateQuestion',        'AdminController@updateQuestion');
-Route::post('/admin/saveAnswer',        'AdminController@SaveAnswer');
-Route::get('/admin/quizzes',                'AdminController@quizzes');
-Route::get('/admin/{quizId}/removeQuiz',    'AdminController@removeQuiz');
-Route::post('/admin/updateAnswer',          'AdminController@updateAnswer');
-Route::get('/admin/{quizId}/{questionId}/removeQuestion','AdminController@removeQuestion');
+Route::get('/admin/{idQuiz}/editQuiz',      'AdminController@editQuiz')->middleware('admin');
+Route::post('/admin/saveQuiz',              'AdminController@saveQuiz')->middleware('admin');
+Route::post('/admin/saveQuestion',          'AdminController@saveQuestion')->middleware('admin');
+Route::post('/admin/updateQuestion',        'AdminController@updateQuestion')->middleware('admin');
+Route::post('/admin/saveAnswer',        'AdminController@SaveAnswer')->middleware('admin');
+Route::get('/admin/quizzes',                'AdminController@quizzes')->middleware('admin');
+Route::get('/admin/{quizId}/removeQuiz',    'AdminController@removeQuiz')->middleware('admin');
+Route::post('/admin/updateAnswer',          'AdminController@updateAnswer')->middleware('admin');
+Route::get('/admin/{quizId}/{questionId}/removeQuestion','AdminController@removeQuestion')->middleware('admin');
+
 
 Route::get('resetQuiz/{quiz_id}/{user_quiz_id}', 'QuizzesController@resetQuiz');
 Route::get('continueQuiz/{user_quiz_id}', 'QuizzesController@continueQuiz');
