@@ -18,6 +18,7 @@ class AdminPageTest extends TestCase
      */
     public function admin_create_new_quiz()
     {
+
         $this->get('/admin/addQuiz')->assertStatus(200);
     }
 
@@ -188,5 +189,24 @@ class AdminPageTest extends TestCase
         $this->assertCount(1, $questionValidAnswerSet);
 
     }
+
+    public function test_admin_add_categories()
+    {
+        $this->assertEquals(0, \App\Category::all()->count());
+        $this->call('post','admin/addCategory',  array('name'=>'php'));
+        $this->assertEquals(1, \App\Category::all()->count() );
+
+
+    }
+
+    public function test_admin_add_tags()
+    {
+        $this->assertEquals(0, \App\Tag::all()->count());
+        $this->call('post','admin/addTag',  array('name'=>'php'));
+        $this->assertEquals(1, \App\Tag::all()->count() );
+
+
+    }
+
 
 }

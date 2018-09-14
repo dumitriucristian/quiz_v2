@@ -16,6 +16,44 @@ class AdminController extends Controller
 
     }
 
+
+    public function addCategory(Request $request)
+    {
+
+        $validate =  $request->validate(
+            array('name' =>'required|max:255')
+        );
+
+        if($validate){
+            $category = new \App\Category;
+            $category->name = $request->name;
+
+            $category->save();
+        }
+
+
+
+    }
+
+    public function addTag(Request $request)
+    {
+
+        $validate =  $request->validate(
+            array('name' =>'required|max:255')
+        );
+
+        if($validate){
+            $tag = new \App\Tag;
+            $tag->name = $request->name;
+
+            $tag->save();
+        }
+
+
+
+    }
+
+
     public function addQuiz()
     {
         return view('admin.addQuiz');
