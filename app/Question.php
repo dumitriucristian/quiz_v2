@@ -15,7 +15,18 @@ class Question extends Model
         return $this->belongsToMany('App\Question', 'question_quizzes', 'question_id', 'quiz_id');
     }
 
-    public function Answer()
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Category')->withTimestamps();
+    }
+
+    public function answer()
     {
         return $this->hasMany( 'App\Answer');
     }
@@ -41,4 +52,6 @@ class Question extends Model
       return false;
 
     }
+
+
  }

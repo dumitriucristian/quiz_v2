@@ -15,7 +15,9 @@ Route::get('/home','QuizzesController@homePage');
 Route::get('/quiz/{quiz_id}/{user_quiz_id?}',   'QuizzesController@quizDetails');
 
 Route::post('/admin/addCategory',           'AdminController@addCategory')->middleware('admin');
-Route::post('/admin/addTag',                 'AdminController@addTag')->middleware('admin');
+Route::post('/admin/addTag',                'AdminController@addTag')->middleware('admin');
+Route::get('/admin/categories',            'AdminController@categories')->middleware('admin');
+Route::get('/admin/tags',                  'AdminController@tags')->middleware('admin');
 Route::get('/admin/{questionId}/addAnswer', 'AdminController@addAnswer')->middleware('admin');
 Route::get('/admin/addQuiz',                'AdminController@addQuiz')->middleware('admin');
 Route::get('/admin/addQuestion',            'AdminController@addQuestion')->middleware('admin');
@@ -24,7 +26,7 @@ Route::get('/admin/{idQuiz}/editQuiz',      'AdminController@editQuiz')->middlew
 Route::post('/admin/saveQuiz',              'AdminController@saveQuiz')->middleware('admin');
 Route::post('/admin/saveQuestion',          'AdminController@saveQuestion')->middleware('admin');
 Route::post('/admin/updateQuestion',        'AdminController@updateQuestion')->middleware('admin');
-Route::post('/admin/saveAnswer',        'AdminController@SaveAnswer')->middleware('admin');
+Route::post('/admin/saveAnswer',            'AdminController@SaveAnswer')->middleware('admin');
 Route::get('/admin/quizzes',                'AdminController@quizzes')->middleware('admin');
 Route::get('/admin/{quizId}/removeQuiz',    'AdminController@removeQuiz')->middleware('admin');
 Route::post('/admin/updateAnswer',          'AdminController@updateAnswer')->middleware('admin');

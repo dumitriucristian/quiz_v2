@@ -208,5 +208,35 @@ class AdminPageTest extends TestCase
 
     }
 
+    public function test_admin_add_tags_to_questions()
+    {
+        $question = factory(\App\Question::class, 1)->create();
+        $this->assertEquals(0, \App\Question::find(1)->tags()->count());
+        $this->call('post','admin/addTag',  array('name'=>'php'));
+        $this->call('post','admin/addTag',  array('name'=>'javascript'));
+
+        $questionId = 1;
+        $tags_id = array(1,2);
+
+        (new \App\TagQuestion)->appendTags($questionId, $tags_id);
+        $this->assertEquals(2, \App\Question::find(1)->tags()->count());
+
+    }
+
+    public function test_admin_add_category_to_questions()
+    {
+        $question = factory(\App\Question::class, 1)->create();
+        $this->assertEquals(0, \App\Question::find(1)->categories()->count());
+        $this->call('post','admin/addCategory',  array('name'=>'php'));
+
+        $questionId = 1;
+        $categoryId = 1;
+
+        (new \App\CategoryQuestion)->addCategory($questionId, $categoryId);
+        $this->assertEquals(1, \App\Question::find(1)->categories()->count());
+
+    }
+
+
 
 }

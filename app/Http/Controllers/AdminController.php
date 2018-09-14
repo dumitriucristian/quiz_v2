@@ -16,12 +16,21 @@ class AdminController extends Controller
 
     }
 
+    public function categories()
+    {
+        return view('admin.categories', array('categories'=>\App\Category::all()));
+    }
+
+    public function tags()
+    {
+        return view('admin.tags', array('tags'=>\App\Tags::all()));
+    }
 
     public function addCategory(Request $request)
     {
 
         $validate =  $request->validate(
-            array('name' =>'required|max:255')
+            array('name' =>'required|max:255|unique:categories,name')
         );
 
         if($validate){
@@ -31,7 +40,7 @@ class AdminController extends Controller
             $category->save();
         }
 
-
+        return back();
 
     }
 
@@ -39,7 +48,7 @@ class AdminController extends Controller
     {
 
         $validate =  $request->validate(
-            array('name' =>'required|max:255')
+            array('name' =>'required|max:255|unique:tags,name')
         );
 
         if($validate){
@@ -49,7 +58,7 @@ class AdminController extends Controller
             $tag->save();
         }
 
-
+        return back();
 
     }
 
