@@ -53,17 +53,19 @@
                                         <input type="hidden" name="questionId" value="{{$question->id}}">
                                         <div class="row pl-3 pr-3 lg-pl-0 lg-pr-0">
                                             <label class="col-md-12 col-lg-8 mr-lg-5 ">Question {{$nr++}}:</label>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
+                                                    data-toggle="modal" data-target="#exampleModal">
+                                                Category
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
+                                                    data-toggle="modal" data-target="#exampleModal">
+                                                Tags
+                                            </button>
 
                                             <a href="/admin/{{$question->id}}/{{$quiz->id}}/removeQuestion"
-                                               class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1">
-                                                Category
-                                            </a>
-                                            <a href="/admin/{{$question->id}}/{{$quiz->id}}/removeQuestion"
-                                               class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1">
-                                                Tags
-                                            </a>
-                                            <a href="/admin/{{$question->id}}/{{$quiz->id}}/removeQuestion"
-                                               class="btn btn-primary btn-sm float-right position-relative-bottom col-lg-1 col-md-12 m-1">
+                                               class="btn btn-primary float-right position-relative-bottom col-lg-1 col-md-12 m-1">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </div>
@@ -81,3 +83,24 @@
         </div>
     @endif
 @endsection
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
