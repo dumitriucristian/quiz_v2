@@ -1,5 +1,12 @@
 $(document).ready(function(){
-    $('#categoryButton').on('click',function(){
-        console.log('clicked');
-    })
+    var tag = (function(){
+        var test = function(){
+            console.log('test');
+        };
+
+        return {
+            test : test
+        }
+    })();
+   Tag.test();
 });

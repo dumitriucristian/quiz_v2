@@ -53,12 +53,12 @@
                                         <input type="hidden" name="questionId" value="{{$question->id}}">
                                         <div class="row pl-3 pr-3 lg-pl-0 lg-pr-0">
                                             <label class="col-md-12 col-lg-8 mr-lg-5 ">Question {{$nr++}}:</label>
-                                            <button type="button"
+                                            <button type="button" id="categoryButton"
                                                     class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
                                                     data-toggle="modal" data-target="#exampleModal">
                                                 Category
                                             </button>
-                                            <button type="button"
+                                            <button type="button" id="tagButton"
                                                     class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
                                                     data-toggle="modal" data-target="#exampleModal">
                                                 Tags
@@ -82,6 +82,7 @@
             @endif
         </div>
     @endif
+    <script src="{{asset('js/tagsAndCategory.js')}}" defer></script>
 @endsection
 
 <!-- Modal -->
@@ -104,3 +105,5 @@
         </div>
     </div>
 </div>
+
+
