@@ -223,20 +223,16 @@ class AdminPageTest extends TestCase
 
     }
 
-    public function test_admin_add_category_to_questions()
-    {
-        $question = factory(\App\Question::class, 1)->create();
-        $this->assertEquals(0, \App\Question::find(1)->categories()->count());
-        $this->call('post','admin/addCategory',  array('name'=>'php'));
+    public function test_admin_add_category(){
 
-        $questionId = 1;
         $categoryId = 1;
+        $questionId = 1;
+        $category = factory(\App\Category::class)->create(array('id' => 1));
+        $question = factory(\App\Question::class)->create();
+        \App\Question::find(1)->addCategory($categoryId, $questionId);
 
-        (new \App\CategoryQuestion)->addCategory($questionId, $categoryId);
-        $this->assertEquals(1, \App\Question::find(1)->categories()->count());
-
+        $this->assertEquals(1, \App\Question::find(1)->category->id);
     }
-
 
 
 }

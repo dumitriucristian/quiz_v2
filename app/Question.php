@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Question extends Model
 {
-    protected $fillable = ['body'];
+    protected $fillable = ['body','category_id'];
 
     public function quiz()
     {
@@ -21,10 +21,6 @@ class Question extends Model
         return $this->belongsToMany('App\Tag')->withTimestamps();
     }
 
-    public function categories()
-    {
-        return $this->belongsToMany('App\Category')->withTimestamps();
-    }
 
     public function answer()
     {
@@ -53,5 +49,21 @@ class Question extends Model
 
     }
 
+
+    public function addCategory($categoryId, $questionId)
+    {
+
+        $question = DB::table( $this->getTable())
+            ->where('id','=', $questionId)
+            ->update(['category_id'=> $categoryId]);
+
+        return $question;
+
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 
  }

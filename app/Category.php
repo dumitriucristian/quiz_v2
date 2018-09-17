@@ -8,7 +8,8 @@ class Category extends Model
 {
     protected $fillable = array('name');
 
-    public function questions(){
-        return $this->belongsToMany('App\Question')->withTimestamps();
+    public function questions()
+    {
+        return $this->hasMany('App\Question');
     }
 }

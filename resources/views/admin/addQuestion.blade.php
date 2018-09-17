@@ -51,10 +51,22 @@
                                         {{csrf_field()}}
                                         <input type="hidden" name="quizId" value="{{$quiz->id}}">
                                         <input type="hidden" name="questionId" value="{{$question->id}}">
-                                        <label>Question {{$nr++}}:</label>
-                                         <a href="/admin/{{$question->id}}/{{$quiz->id}}/removeQuestion" class="btn btn-primary btn-sm float-right position-relative-bottom">
-                                             <i class="fas fa-trash"></i>
-                                         </a>
+                                        <div class="row pl-3 pr-3 lg-pl-0 lg-pr-0">
+                                            <label class="col-md-12 col-lg-8 mr-lg-5 ">Question {{$nr++}}:</label>
+
+                                            <a href="/admin/{{$question->id}}/{{$quiz->id}}/removeQuestion"
+                                               class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1">
+                                                Category
+                                            </a>
+                                            <a href="/admin/{{$question->id}}/{{$quiz->id}}/removeQuestion"
+                                               class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1">
+                                                Tags
+                                            </a>
+                                            <a href="/admin/{{$question->id}}/{{$quiz->id}}/removeQuestion"
+                                               class="btn btn-primary btn-sm float-right position-relative-bottom col-lg-1 col-md-12 m-1">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
                                         <textarea name="body" class="form-control" value="{{$question->body}}">{{$question->body}}</textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary float-right">Update  Question</button>
