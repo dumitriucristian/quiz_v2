@@ -23,7 +23,6 @@ Route::get('/guest-login', 'LoginController@login');
 Route::get('/loginAsGuest', 'LoginController@loginAsGuest');
 
 
-
 Route::get('/lastQuestion/{user_quiz_id}', 'QuizzesController@lastQuestion');
 
 Route::get('/', 'QuizzesController@homePage');

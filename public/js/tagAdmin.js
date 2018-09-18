@@ -30,7 +30,7 @@ $(document).ready(function(){
              elem.addClass('removeTag');
              elem.html( elem.html() + ' X');
              $('#removeTagsContainer').append(elem);
-        }
+        };
 
         var removeTag =  function(elem){
             elem.removeClass('removeTag');
@@ -38,7 +38,7 @@ $(document).ready(function(){
             html = (elem.html().slice(0,elem.html().length - 2));
             elem.html( html );
             $('#addTagsContainer').append(elem);
-        }
+        };
 
         var getTagsHtml = function(){
             $.ajax({
@@ -64,13 +64,11 @@ $(document).ready(function(){
             tagsHtml +='</div>';
 
             return tagsHtml;
-
         };
 
         var getQuestionTags = function(tags){
 
-            var tagsHtml = '<div id="removeTagsContainer" class="ml-4 m-2 p-2 border border-primary col-11">' +
-                '<h5>Remove tags</h5>';
+            var tagsHtml = '<div id="removeTagsContainer" class="ml-4 m-2 p-2 border border-primary col-11"><h5>Remove tags</h5>';
 
             $.each(tags, function( key, value){
                 tagsHtml+='<button type="button" data-tag-id='+value.id+' class="removeTag btn btn-info btn-sm mb-1 ml-1">'+value.name+' X</button>';
@@ -83,8 +81,6 @@ $(document).ready(function(){
         var setModalTitle = function(title){
             modalTitle.text(title);
         };
-
-
 
 
         return {

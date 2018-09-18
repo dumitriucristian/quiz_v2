@@ -223,6 +223,26 @@ class AdminPageTest extends TestCase
 
     }
 
+
+    public function test_admin_question_tag()
+    {
+        $question = factory(\App\Question::class, 1)->create();
+        $this->assertEquals(0, \App\Question::find(1)->tags()->count());
+        $this->call('post','admin/addTag',  array('name'=>'php'));
+        $this->call('post','admin/addTag',  array('name'=>'javascript'));
+
+        $questionId = 1;
+        $tags_id = array(1,2);
+        $tag_id= 2;
+
+        (new \App\TagQuestion)->appendTags($questionId, $tags_id);
+        $this->assertEquals(2, \App\Question::find(1)->tags()->count());
+
+        (new \App\TagQuestion)->removeTag($questionId, $tag_id);
+        $this->assertEquals(1, \App\Question::find(1)->tags()->count());
+
+    }
+
     public function test_admin_add_category(){
 
         $categoryId = 1;
