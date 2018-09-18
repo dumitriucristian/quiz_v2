@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var tag = (function(){
-        var get = function(){
+        var getCategories = function(){
             console.log('test');
         };
 

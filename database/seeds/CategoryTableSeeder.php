@@ -23,7 +23,7 @@ class CategoryTableSeeder extends Seeder
 
         $category = new Category();
         $category->name = 'Variables';
-        $category->parent_category = 2;
+        $category->parent_category = 1;
         $category->save();
     }
 }
