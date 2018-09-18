@@ -3,10 +3,12 @@ $(document).ready(function(){
 
         var tagButton = $("#tagButton");
 
+
         var init = function(){
 
             getTags();
             getCategories();
+
 
             tagButton.on('click', function() {
                 onClickTag('text');
@@ -20,9 +22,10 @@ $(document).ready(function(){
                 url: "/tags",
                 context: document.body,
                 success: function(data){
-                    console.log(data);
+                   getTagHtml(data);
                 }
             });
+
         };
 
         var getCategories = function(){
@@ -31,10 +34,14 @@ $(document).ready(function(){
                 url: "/categories",
                 context: document.body,
                 success: function(data){
-                    console.log(data);
+                    return data;
                 }
             });
         };
+
+        var getTagHtml = function( tags ){
+            console.log(tags);
+        }
 
         var onClickTag = function(some){
 

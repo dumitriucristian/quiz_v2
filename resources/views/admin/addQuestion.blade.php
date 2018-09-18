@@ -96,7 +96,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <div class="row">
+
+                    <div id="" class="ml-4 m-2 p-2 border border-danger col-11">
+                        <h5>Remove tags</h5>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes X</button>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes X</button>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes X</button>
+                    </div>
+                    <div id="" class="ml-4 m-2 p-2 border border-primary col-11">
+                        <h5>Add tags</h5>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
+                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
