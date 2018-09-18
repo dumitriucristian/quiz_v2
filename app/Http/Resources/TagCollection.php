@@ -13,7 +13,7 @@ class TagCollection extends ResourceCollection
      * @return array
      */
     public function toArray($request)
-    {
+    {;
         parent::toArray($request);
 
         return [

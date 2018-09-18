@@ -12,8 +12,10 @@ Route::get('/categories', function () {
     return new CategoryCollection(Category::all());
 });
 
-Route::get('/tags', function () {
-    return new TagCollection(Tag::all());
+
+Route::get('/questionTags/{questionId}', function ($questionId) {
+
+    return new TagCollection(Tag::questionTags($questionId));
 });
 
 

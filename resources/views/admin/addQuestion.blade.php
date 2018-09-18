@@ -55,12 +55,12 @@
                                             <label class="col-md-12 col-lg-8 mr-lg-5 ">Question {{$nr++}}:</label>
                                             <button type="button" id="categoryButton"
                                                     class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
-                                                    data-toggle="modal" data-target="#exampleModal">
+                                                    data-toggle="modal" data-question="{{$question->id}}" data-target="#exampleModal">
                                                 Category
                                             </button>
                                             <button type="button" id="tagButton"
                                                     class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
-                                                    data-toggle="modal" data-target="#exampleModal">
+                                                    data-toggle="modal" data-question="{{$question->id}}" data-target="#exampleModal">
                                                 Tags
                                             </button>
 
@@ -82,7 +82,8 @@
             @endif
         </div>
     @endif
-    <script src="{{asset('js/tagsAndCategory.js')}}" defer></script>
+
+    <script src="{{asset('js/tagAdmin.js')}}" defer></script>
 @endsection
 
 <!-- Modal -->
@@ -96,24 +97,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
 
-                    <div id="" class="ml-4 m-2 p-2 border border-danger col-11">
-                        <h5>Remove tags</h5>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes X</button>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes X</button>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes X</button>
-                    </div>
-                    <div id="" class="ml-4 m-2 p-2 border border-primary col-11">
-                        <h5>Add tags</h5>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
-                        <button type="button" class="btn btn-info btn-sm mb-1">Save changes</button>
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
