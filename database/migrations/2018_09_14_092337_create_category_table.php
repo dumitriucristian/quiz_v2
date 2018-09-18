@@ -18,6 +18,7 @@ class CreateCategoryTable extends Migration
             $table->string('name');
             $table->integer('parent_category')->nullable();
             $table->timestamps();
+            $table->unique('name');
         });
     }
 

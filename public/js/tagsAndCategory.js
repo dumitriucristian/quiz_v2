@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var tag = (function(){
-        var test = function(){
+        var get = function(){
             console.log('test');
         };
 
@@ -9,4 +9,5 @@ $(document).ready(function(){
         }
     })();
    Tag.test();
+
 });
