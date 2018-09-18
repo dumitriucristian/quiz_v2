@@ -1,7 +1,21 @@
 <?php
+use App\Tag;
+use App\Http\Resources\TagCollection;
+use App\Category;
+use App\Http\Resources\CategoryCollection;
+
 
 
 Auth::routes();
+
+Route::get('/categories', function () {
+    return new CategoryCollection(Category::all());
+});
+
+Route::get('/tags', function () {
+    return new TagCollection(Tag::all());
+});
+
 
 Route::get('/guest-login', 'LoginController@login');
 Route::get('/loginAsGuest', 'LoginController@loginAsGuest');
