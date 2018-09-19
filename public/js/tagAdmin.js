@@ -13,7 +13,6 @@ $(document).ready(function(){
                 getTagsHtml(questionId);
                 setModalTitle('Add and remove question tags');
                 modalBody.append( `<div class="row" id="mainContainer"></div>`);
-
             });
 
             $('body').on('click', '.addTag', function(){
@@ -26,7 +25,18 @@ $(document).ready(function(){
         };
 
         var addTag = function(elem){
-            consonle.log(elem.attr('question_id'))
+             var questionId = elem.attr('data-question-id');
+             var tagId = elem.attr('data-tag-id');
+
+            $.ajax({
+                url: "/admin/addQuestionTag/"+questionId+"/"+tagId,
+                context: document.body,
+                success: function(data){
+                    console.log('done');
+                }
+            });
+
+             console.log(tagId, questionId);
              elem.removeClass('addTag');
              elem.addClass('removeTag');
              elem.html( elem.html() + ' X');
@@ -34,6 +44,18 @@ $(document).ready(function(){
         };
 
         var removeTag =  function(elem){
+
+            var questionId = elem.attr('data-question-id');
+            var tagId = elem.attr('data-tag-id');
+
+            $.ajax({
+                url: "/admin/removeQuestionTag/"+questionId+"/"+tagId,
+                context: document.body,
+                success: function(data){
+                    console.log('done');
+                }
+            });
+
             elem.removeClass('removeTag');
             elem.addClass('addTag');
             html = (elem.html().slice(0,elem.html().length - 2));
@@ -76,6 +98,7 @@ $(document).ready(function(){
             });
 
             tagsHtml +='</div>';
+
             return tagsHtml;
         };
 

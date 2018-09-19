@@ -273,7 +273,15 @@ class AdminController extends Controller
         return view('admin.addQuestion', array('quiz'=>$quiz));
     }
 
+    public function addQuestionTag($questionId, $tagId){
 
+        (new \App\TagQuestion)->appendTags($questionId, $tagId);
+    }
 
+    public function removeQuestionTag($questionId, $tagId){
+
+        (new \App\TagQuestion)->removeTag($questionId, $tagId);
+
+    }
 
 }

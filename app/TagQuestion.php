@@ -9,14 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class TagQuestion extends Model
 {
-    public function appendTags($questionId, $tags)
+    public function appendTags($questionId, $tagId)
     {
 
         $question = \App\Question::find($questionId);
+         $question->tags()->attach($tagId);
 
-        foreach($tags as $tag){
-            $question->tags()->attach($tag);
-        }
     }
 
     public function removeTag($questionId, $tagId)

@@ -47,6 +47,8 @@ Route::get('/admin/{quizId}/removeQuiz',    'AdminController@removeQuiz')->middl
 Route::post('/admin/updateAnswer',          'AdminController@updateAnswer')->middleware('admin');
 Route::get('/admin/{quizId}/{questionId}/removeQuestion','AdminController@removeQuestion')->middleware('admin');
 
+Route::get('/admin/addQuestionTag/{questionId}/{tagId}', 'AdminController@addQuestionTag');
+Route::get('/admin/removeQuestionTag/{questionId}/{tagId}', 'AdminController@removeQuestionTag');
 
 Route::get('resetQuiz/{quiz_id}/{user_quiz_id}', 'QuizzesController@resetQuiz');
 Route::get('continueQuiz/{user_quiz_id}', 'QuizzesController@continueQuiz');
