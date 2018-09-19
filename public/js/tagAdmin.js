@@ -1,16 +1,16 @@
 $(document).ready(function(){
     var Tag = (function(){
 
-        var tagButton = $("#tagButton");
-        var questionId = tagButton.attr('data-question');
+        var tagButton = $(".tagButton");
         var modalTitle = $(".modal-title");
         var modalBody = $(".modal-body");
 
         var init = function(){
 
-            getTagsHtml();
-
             tagButton.on('click', function() {
+                modalBody.empty();
+                var questionId =$(this).attr('data-question');
+                getTagsHtml(questionId);
                 setModalTitle('Add and remove question tags');
                 modalBody.append( `<div class="row" id="mainContainer"></div>`);
 
@@ -40,7 +40,7 @@ $(document).ready(function(){
             $('#addTagsContainer').append(elem);
         };
 
-        var getTagsHtml = function(){
+        var getTagsHtml = function(questionId){
             $.ajax({
                 url: "/questionTags/"+questionId,
                 context: document.body,

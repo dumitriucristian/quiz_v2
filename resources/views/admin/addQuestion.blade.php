@@ -58,8 +58,8 @@
                                                     data-toggle="modal" data-question="{{$question->id}}" data-target="#exampleModal">
                                                 Category
                                             </button>
-                                            <button type="button" id="tagButton"
-                                                    class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
+                                            <button type="button"
+                                                    class="tagButton btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1"
                                                     data-toggle="modal" data-question="{{$question->id}}" data-target="#exampleModal">
                                                 Tags
                                             </button>
