@@ -82,7 +82,7 @@
             @endif
         </div>
     @endif
-
+    <script src="{{asset('js/categoryAdmin.js')}}" defer></script>
     <script src="{{asset('js/tagAdmin.js')}}" defer></script>
 @endsection
 

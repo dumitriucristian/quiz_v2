@@ -8,8 +8,12 @@ use App\Http\Resources\CategoryCollection;
 
 Auth::routes();
 
-Route::get('/categories', function () {
+Route::get('/getCategories', function () {
     return new CategoryCollection(Category::all());
+});
+
+Route::get('/categoryTree', function () {
+    return Category::categoryTree();
 });
 
 
