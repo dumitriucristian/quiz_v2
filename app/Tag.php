@@ -20,7 +20,8 @@ class Tag extends Model
     {
 
         $questionTags = $this->questionTags($id);
-        $missingQuestionTags  = $this->missingQuestionTags($id);
+
+        $missingQuestionTags  = $this->missingQuestionTags($questionTags);
 
         $result =
             array(
@@ -36,20 +37,24 @@ class Tag extends Model
     private function questionTags($questionId){
 
           return DB::table('question_tag')
-              ->leftJoin($this->getTable(), 'tags.id' , '=', 'question_tag.tag_id')
+              ->Join($this->getTable(), 'tags.id' , '=', 'question_tag.tag_id')
               ->where('question_id', '=', $questionId)
               ->get();
     }
 
-    private function missingQuestionTags($questionId){
+    private function missingQuestionTags($questionTags)
+    {
+        if($questionTags->count() > 0){
+            $flatten = $questionTags->pluck('tag_id')->toArray();
+            return \App\Tag::all()->whereNotIn('id',$flatten);
 
-        return DB::table('question_tag')
-            ->distinct()
-            ->select('tags.id', 'tags.name')
-            ->join($this->getTable(), 'tags.id' , '=', 'question_tag.tag_id')
-            ->where('question_id', '<>', $questionId)
-            ->get();
+        }
+
+        return \App\Tag::all();
+
     }
+
+
 
 
 }
