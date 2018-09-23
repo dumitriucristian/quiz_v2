@@ -35,7 +35,6 @@ class Category extends Model
              }
         }
 
-
         return  collect($tree)->toJson();
     }
 }
