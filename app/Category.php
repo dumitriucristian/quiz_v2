@@ -29,9 +29,9 @@ class Category extends Model
              $name = $item->name;
 
              if(isset($tree[$pid])){
-                 $tree[$pid]["childrens"][] = array("id"=>$id, "name" => $name, "pid" => $pid);
+                 $tree[$pid]["childrens"][] = array("id"=>$id, "lvl"=>0, "name" => $name, "pid" => $pid);
              }else{
-                 $tree[$id] = array("id"=>$id, "name" => $name, "pid" => $pid);
+                 $tree[$id] = array("id"=>$id, "lvl"=>0, "name" => $name, "pid" => $pid);
              }
         }
 

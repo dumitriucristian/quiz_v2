@@ -8,17 +8,17 @@ $(document).ready(function(){
 
        var htmlData='';
 
-       var addLi = function(value){
-           return "<li><a href='#'>"+value.name+"</a></li>";
+       var addLi = function(value,lvl){
+           return "<li class='ml-"+lvl+"'><a href='#'>"+value.name+"</a></li>";
        }
 
-       var addChildren = function(value, html =''){
-
+       var addChildren = function(value,lvl, html =''){
+            lvl++;
            if('childrens' in value){
                for(var i = 0; i < value.childrens.length; i++){
-                   html += addLi(value.childrens[i])
+                   html += addLi(value.childrens[i], lvl)
 
-                   addChildren(value.childrens[i],html);
+                   addChildren(value.childrens[i],lvl,html);
                }
            }
            return html;
@@ -33,10 +33,10 @@ $(document).ready(function(){
                    //getChildren(data);
                   $.each(JSON.parse(data),function(key, value){
                         console.log(value);
-
-                      html += '<li><a href="#">'+value.name+'</a>';
+                       var lvl = 0;
+                      html += '<li class="ml-'+lvl+'"><a href="#" >'+value.name+'</a>';
                       if('childrens' in value){
-                         html += addChildren(value);
+                         html += addChildren(value, lvl);
                       }
 
                       html += "</li>";
