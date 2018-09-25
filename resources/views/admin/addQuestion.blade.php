@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 col-sm-4" style="background-color:#cdd3db;">
-                <ul id="tree">
+                <ul id="tree" class="list-group">
 
                 </ul>
             </div>
