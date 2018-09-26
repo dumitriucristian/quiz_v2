@@ -56,8 +56,8 @@
                                             <input type="hidden" name="questionId" value="{{$question->id}}">
                                             <div class="row pl-3 pr-3 lg-pl-0 lg-pr-0">
                                                 <label class="col-md-12 col-lg-8 mr-lg-4 ">Question {{$nr++}}:</label>
-                                                <button type="button" id="categoryButton"
-                                                        class="btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1 px-xl-0"
+                                                <button type="button"
+                                                        class="categoryButton btn btn-primary btn-sm float-right position-relative-bottom  col-lg-1 col-md-12  m-1 px-xl-0"
                                                         data-toggle="modal" data-question="{{$question->id}}" data-target="#exampleModal">Category
                                                 </button>
                                                 <button type="button"
