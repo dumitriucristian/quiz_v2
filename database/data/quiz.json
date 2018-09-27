@@ -9,7 +9,7 @@
         "category":
         {
           "name":"Php variables",
-          "parentCategory":"none"
+          "parent":"none"
         },
         "answers":
         [
@@ -28,7 +28,7 @@
         "category":
         {
           "name":"Php sintax",
-          "parentCategory":"php"
+          "parent":"php"
         },
         "answers":
         [
