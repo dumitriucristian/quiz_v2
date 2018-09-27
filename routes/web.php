@@ -34,6 +34,7 @@ Route::get('/home','QuizzesController@homePage');
 Route::get('/quiz/{quiz_id}/{user_quiz_id?}',   'QuizzesController@quizDetails');
 
 Route::post('/admin/addCategory',           'AdminController@addCategory')->middleware('admin');
+Route::get('/admin/addQuestionCategory/{questionId}/{categoryId}',  'AdminController@addQuestionCategory');
 Route::post('/admin/addTag',                'AdminController@addTag')->middleware('admin');
 Route::get('/admin/categories',            'AdminController@categories')->middleware('admin');
 Route::get('/admin/tags',                  'AdminController@tags')->middleware('admin');

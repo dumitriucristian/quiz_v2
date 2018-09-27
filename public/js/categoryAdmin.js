@@ -65,7 +65,7 @@ $(document).ready(function(){
 
         var addCategoryToQuestion = function(categoryId, questionId) {
             $.ajax({
-                url: "/addQuestionCategory/" + questionId + "/" + categoryId,
+                url: "/admin/addQuestionCategory/" + questionId + "/" + categoryId,
                 context: document.body,
                 success: function (data) {
                     console.log(data);

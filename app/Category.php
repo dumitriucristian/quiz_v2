@@ -21,7 +21,6 @@ class Category extends Model
         $tree = [];
         $items =  Category::all();
 
-
         foreach($items as $item) {
 
              $pid = $item->parent_category;

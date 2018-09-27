@@ -134,6 +134,13 @@ class AdminController extends Controller
         );
     }
 
+
+    public function addQuestionCategory(Request $request)
+    {
+        (new \App\Question)->addCategory($request->categoryId, $request->questionId);
+        return ;
+    }
+
     public function removeQuestion($questionId, $quizId)
     {
 
