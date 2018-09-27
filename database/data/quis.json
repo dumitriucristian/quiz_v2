@@ -1,0 +1,47 @@
+{"quiz":
+  {
+    "title":"Php",
+    "description":"This quiz will test your php knowledge",
+    "questions":
+    [
+      {
+        "questionText":"What is the propper way to declare a variable",
+        "category":
+        {
+          "name":"Php variables",
+          "parentCategory":"none"
+        },
+        "answers":
+        [
+          {
+            "text":"$",
+            "corect":1
+          },
+          {
+            "text":"<?",
+            "corect":0
+          }
+        ]
+      },
+      {
+        "questionText":"What is the propper to start a php file",
+        "category":
+        {
+          "name":"Php sintax",
+          "parentCategory":"php"
+        },
+        "answers":
+        [
+          {
+            "text":"<?php",
+            "corect":1
+          },
+          {
+            "text":"start",
+            "corect":0
+          }
+        ]
+      }
+    ]
+  }
+}
