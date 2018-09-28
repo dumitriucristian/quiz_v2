@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <div id="ss">
+        <p>@{{message}}</p>
+        <p>@{{ secondText }}</p>
+    </div>
+
+    <example-component>
+
+    </example-component>
     @if( $errors && count($errors) > 0)
         @include('includes.error');
         <div class="container">
@@ -8,6 +16,8 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
+
+
                             You can add a new quiz <a href="/admin/addQuiz">here</a>
                         </div>
 

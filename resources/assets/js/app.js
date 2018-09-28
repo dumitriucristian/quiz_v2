@@ -18,5 +18,9 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#ss',
+    data:{
+        message:"This is a VUE text modifiss   ss sed",
+        secondText:"this is a second text ss"
+    }
 });
