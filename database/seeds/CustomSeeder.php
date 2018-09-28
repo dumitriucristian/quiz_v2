@@ -15,17 +15,37 @@ class CustomSeeder extends Seeder
 
         $data        = json_decode($json);
         $quiz        = $this->quiz($data);
+
+        //create quiz
         $title       = $this->title($quiz);
         $description = $this->description($quiz);
         $questions   = $this->questions($quiz);
 
-        dd($questions);
-
         foreach ($questions as $question) {
-            dd($question->questionText);
+            //create question
+            $questionText   = $question->questionText;
+
+            //create category
+            $category       = $question->category;
+            $categoryName   = $category->name;
+            $categoryParent = $category->parent;
+            $answers        = $category->answers;
+
+            foreach($answers as $answer)
+            {
+                //create answer
+                $text   = $answer->text;
+                $corect = $answer->corect;
+
+                //create answer set
+
+            }
+
         }
 
     }
+
+
 
     private function quiz($data)
     {
