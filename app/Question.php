@@ -12,7 +12,7 @@ class Question extends Model
 
     public function quiz()
     {
-        return $this->belongsToMany('App\Question', 'question_quizzes', 'question_id', 'quiz_id');
+        return $this->belongsToMany('App\Quiz', 'question_quizzes', 'question_id', 'quiz_id');
     }
 
 

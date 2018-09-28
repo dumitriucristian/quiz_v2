@@ -2,7 +2,6 @@
 
 @section('content')
     @if( $errors && count($errors) > 0 )
-
         @include('includes.error');
     @endif
          <div class="container">

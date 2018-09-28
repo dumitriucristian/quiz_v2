@@ -11,7 +11,7 @@ class CustomSeeder extends Seeder
      */
     public function run()
     {
-        $json = File::get("database/data/quiz.json");
+       /* $json = File::get("database/data/quiz.json");
 
         $data        = json_decode($json);
         $quiz        = $this->quiz($data);
@@ -41,7 +41,7 @@ class CustomSeeder extends Seeder
 
             }
 
-        }
+        }*/
 
     }
 

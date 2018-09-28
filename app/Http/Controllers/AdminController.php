@@ -178,12 +178,13 @@ class AdminController extends Controller
     {
 
         $question = \App\Question::find($questionId);
+        $quiz = $question->quiz;
 
         if(empty($question)){
             return view('/quizzes')->withErrors( array("errors" => "invalid request"));
         }
 
-        return view('admin.addAnswer', array('question' => $question));
+        return view('admin.addAnswer', array('question' => $question, 'quiz'=>$quiz));
     }
 
 

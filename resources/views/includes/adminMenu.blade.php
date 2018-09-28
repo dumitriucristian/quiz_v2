@@ -3,17 +3,17 @@
         <li class="nav-item">
             <a class="nav-link" href="/admin/quizzes">All Quizzes</a>
         </li>
-@if(isset($question))
+        @if(isset($question))
         <li class="nav-item">
-            <a class="nav-link" href="/admin/{{$question->id}}/editQuiz/">Quiz main page</a>
+            <a class="nav-link" href="/admin/{{ $question->quiz()->first()->id}}/editQuiz/">Quiz main page</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/{{$question->id}}/editQuiz/">Quiz questions</a>
+            <a class="nav-link" href="/admin/{{  $question->quiz()->first()->id}}/editQuiz/">Quiz questions</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/{{$question->id}}/quiz/">Quiz Preview</a>
+            <a class="nav-link" href="/{{  $question->quiz()->first()->id}}/quiz/">Quiz Preview</a>
         </li>
-@endif
+        @endif
     </ul>
 
 </div>

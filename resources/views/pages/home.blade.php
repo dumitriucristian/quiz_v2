@@ -20,7 +20,6 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
-
                     @foreach( $quizzes as $quiz)
                         <div class="card-header">
                             <div  class="d-flex justify-content-start">
@@ -35,9 +34,6 @@
                                 </div>
                                 @endif
                             </div>
-
-
-
                         </div>
                         <div class="card-body">
                             {{ $quiz->description }}
