@@ -15,12 +15,21 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+//Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({
     el: '#ss',
     data:{
-        message:"This is a VUE text modifiss   ss sed",
-        secondText:"this is a second text ss"
+        message:"This is a VUE text modifiss   asdfa ss sed",
+        secondText:"this is a second text ss aa",
+        counter : 0
+    },
+    methods: {
+        doClick : function(event){
+          this.counter+=1;
+        }
     }
+
 });
+
+app.counter = 0;

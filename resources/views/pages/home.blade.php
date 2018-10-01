@@ -1,9 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="ss">
-        <p>@{{message}}</p>
-        <p>@{{ secondText }}</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Vue Component</div>
+                        <div id="ss">
+                            <p>@{{message}}</p>
+                            <p>@{{ secondText }}</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
     </div>
 
     <example-component>

@@ -22,6 +22,7 @@ Route::get('/questionTags/{questionId}', function ($questionId) {
     return new TagCollection(Tag::questionTags($questionId));
 });
 
+Route::view('/vue', 'vue');
 
 Route::get('/guest-login', 'LoginController@login');
 Route::get('/loginAsGuest', 'LoginController@loginAsGuest');
