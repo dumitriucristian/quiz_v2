@@ -13931,7 +13931,9 @@ var app = new Vue({
     }
 
 });
-
+//https://blog.pusher.com/web-application-laravel-vue-part-2/
+//https://blog.pusher.com/make-an-oauth2-server-using-laravel-passport/
+//https://blog.pusher.com/web-application-laravel-vue-part-3/
 app.counter = 0;
 
 /***/ }),
