@@ -27,7 +27,12 @@ const app = new Vue({
     methods: {
         doClick : function(event){
           this.counter+=1;
+            window.axios.get('/getCategories').then(({ data }) => {
+                 console.log(data)
+            });
+
         }
+
     }
 
 });

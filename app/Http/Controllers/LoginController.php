@@ -42,9 +42,19 @@ class LoginController extends Controller
 
     }
 
-    public function authAsGuest(){
+    public function logout(Request $request){
 
+        Auth::logout();
+        if($request->cookie('guest') != null) {
+           $cookie = Cookie::forget('guest');
+
+            return redirect('/login')->withCookie($cookie);
+        }
+
+        return redirect('/login');
     }
+
+
 
 
 }

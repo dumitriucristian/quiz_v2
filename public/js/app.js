@@ -13915,7 +13915,13 @@ var app = new Vue({
     methods: {
         doClick: function doClick(event) {
             this.counter += 1;
+            window.axios.get('/getCategories').then(function (_ref) {
+                var data = _ref.data;
+
+                console.log(data);
+            });
         }
+
     }
 
 });
