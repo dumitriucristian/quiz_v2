@@ -16,18 +16,24 @@ window.Vue = require('vue');
  */
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.config.devtools = true ;
+Vue.config.performance = true;
+window.axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+};
 
 const app = new Vue({
     el: '#ss',
     data:{
-        message:"This is a VUE text modifiss   asdfa ss sed",
+        message:"This is a VUE text modifiss   asdfa ssaaaa asdfasdf safasdfasdfs sed",
         secondText:"this is a second text ss aa",
         counter : 0
     },
     methods: {
         doClick : function(event){
           this.counter+=1;
-            window.axios.get('/getCategories').then(({ data }) => {
+          console.log('sssss');
+            window.axios.get('/oauth/scopes').then(({ data }) => {
                  console.log(data)
             });
 
