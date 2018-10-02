@@ -76,7 +76,9 @@ class QuizzesController extends Controller
 
         $answers = $request->answer;
 
-        if(in_array(1,$answers) === false ){
+
+
+        if(empty($answers) || in_array(1,$answers) === false ){
             return back()->withErrors(array('errors' =>"Invalid answer. Empty answer"));
         }
 
